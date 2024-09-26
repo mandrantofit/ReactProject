@@ -1,7 +1,7 @@
 module.exports = {
   apps: [
     {
-      name: 'backend',    // Nom de l'application + commentaire modifié
+      name: 'backend',    // Nom de l'application + commentaire remodifié
       script: './index.js',         // Chemin vers votre fichier principal
       instances: 1,             // Utiliser tous les cœurs du CPU disponibles
       exec_mode: 'fork',         // Mode cluster pour améliorer la performance
