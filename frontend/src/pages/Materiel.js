@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import * as XLSX from 'xlsx';
 
 const Materiel = () => {
   const [materiels, setMateriels] = useState([]);
@@ -214,6 +215,23 @@ const Materiel = () => {
   };
 
 
+  const exportToCSV = () => {
+    const headers = columns.map(column => column.headerName);
+    const data = materiels.map(row => {
+      const newRow = {};
+      columns.forEach(column => {
+        newRow[column.field] = row[column.field];
+      });
+      return newRow;
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(data, { header: headers });
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Materiels');
+    XLSX.writeFile(workbook, 'materiels.csv');
+    toast.success('csv crée avec succès !');
+  };
+
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
     { field: 'marque', headerName: 'Marque', width: 120 },
@@ -254,6 +272,9 @@ const Materiel = () => {
           <div className="d-flex justify-content-between mb-3">
             <button className="btn btn-success" onClick={() => setShowModal(true)}>
               Ajouter Matériel
+            </button>
+            <button className="btn btn-success mb-3" onClick={exportToCSV}>
+              Exporter en CSV
             </button>
           </div>
           {loading ? (
