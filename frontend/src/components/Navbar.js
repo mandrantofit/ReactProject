@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min'; // Inclure le JavaScript de Bootstrap
-import canalLogo from '../assets/canal_plus.png'; // Import du logo
+import canalLogo from '../assets/canal_plus.svg'; // Import du logo
 import '../styles/Navbar.css';
 import { FaSignOutAlt } from 'react-icons/fa';
 
