@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash, FaFileExport } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Badge } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
 
 const Materiel = () => {
