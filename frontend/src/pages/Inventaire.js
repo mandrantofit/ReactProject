@@ -12,7 +12,7 @@ const Inventaire = () => {
   useEffect(() => {
     const fetchInventaire = async () => {
       try {
-        const response = await axios.get('http://localhost:8000/materiel/inventaire');
+        const response = await axios.get('http://172.25.52.205:8000/materiel/inventaire');
         setInventaire(response.data);
         setLoading(false);
       } catch (error) {

@@ -16,7 +16,7 @@ const Fournisseur = () => {
   // Fetch all fournisseurs
   const fetchFournisseurs = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/getFournisseur');
+      const response = await axios.get('http://172.25.52.205:8000/getFournisseur');
       setFournisseurs(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,11 +38,11 @@ const Fournisseur = () => {
     try {
       if (isEditMode) {
         // Update fournisseur
-        await axios.put(`http://localhost:8000/getFournisseur/${selectedId}`, formData);
+        await axios.put(`http://172.25.52.205:8000/getFournisseur/${selectedId}`, formData);
         toast.success('Fournisseur mis à jour avec succès');
       } else {
         // Add new fournisseur
-        await axios.post('http://localhost:8000/getFournisseur', formData);
+        await axios.post('http://172.25.52.205:8000/getFournisseur', formData);
         toast.success('Fournisseur ajouté avec succès');
       }
       setFormData({ nom: '' });
@@ -66,7 +66,7 @@ const Fournisseur = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce fournisseur ?')) {
       try {
-        await axios.delete(`http://localhost:8000/getFournisseur/${id}`);
+        await axios.delete(`http://172.25.52.205:8000/getFournisseur/${id}`);
         toast.success('Fournisseur supprimé avec succès');
         fetchFournisseurs();
       } catch (error) {

@@ -16,7 +16,7 @@ const Categorie = () => {
   // Fetch all categories
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/getCategorie');
+      const response = await axios.get('http://172.25.52.205:8000/getCategorie');
       setCategories(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,11 +38,11 @@ const Categorie = () => {
     try {
       if (isEditMode) {
         // Update category
-        await axios.put(`http://localhost:8000/getCategorie/${selectedId}`, formData);
+        await axios.put(`http://172.25.52.205:8000/getCategorie/${selectedId}`, formData);
         toast.success('Catégorie mise à jour avec succès');
       } else {
         // Add new category
-        await axios.post('http://localhost:8000/getCategorie', formData);
+        await axios.post('http://172.25.52.205:8000/getCategorie', formData);
         toast.success('Catégorie ajoutée avec succès');
       }
       setFormData({ type: '' });
@@ -66,7 +66,7 @@ const Categorie = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
       try {
-        await axios.delete(`http://localhost:8000/getCategorie/${id}`);
+        await axios.delete(`http://172.25.52.205:8000/getCategorie/${id}`);
         toast.success('Catégorie supprimée avec succès');
         fetchCategories();
       } catch (error) {

@@ -23,7 +23,7 @@ const Utilisateur = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/getUser');
+            const response = await axios.get('http://172.25.52.205:8000/getUser');
             setUsers(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs:', error);
@@ -35,7 +35,7 @@ const Utilisateur = () => {
 
     const fetchServices = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/getUser/service');
+            const response = await axios.get('http://172.25.52.205:8000/getUser/service');
             setServices(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des services:', error);
@@ -45,7 +45,7 @@ const Utilisateur = () => {
 
     const fetchLieux = async () => { // Ajouter pour récupérer les lieux
         try {
-            const response = await axios.get('http://localhost:8000/getUser/lieux');
+            const response = await axios.get('http://172.25.52.205:8000/getUser/lieux');
             setLieux(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des lieux:', error);
@@ -66,7 +66,7 @@ const Utilisateur = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8000/getUser', formData);
+            await axios.post('http://172.25.52.205:8000/getUser', formData);
             setFormData({ nom: '', ID_service: '', ID_lieux: '' }); // Réinitialiser id_lieux
             toast.success('Utilisateur ajouté avec succès !');
             setShowModal(false);
@@ -79,7 +79,7 @@ const Utilisateur = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8000/getUser/${selectedId}`, formData);
+            await axios.put(`http://172.25.52.205:8000/getUser/${selectedId}`, formData);
             setFormData({ nom: '', ID_service: '', ID_lieux: '' }); // Réinitialiser id_lieux
             toast.success('Utilisateur mis à jour avec succès !');
             setShowUpdateModal(false);
@@ -92,7 +92,7 @@ const Utilisateur = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
             try {
-                await axios.delete(`http://localhost:8000/getUser/${id}`);
+                await axios.delete(`http://172.25.52.205:8000/getUser/${id}`);
                 toast.success('Utilisateur supprimé avec succès !');
                 fetchUsers();
             } catch (error) {

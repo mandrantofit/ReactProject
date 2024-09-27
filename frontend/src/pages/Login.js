@@ -12,7 +12,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/login', { email, password });
+      const response = await axios.post('http://172.25.52.205:8000/login', { email, password });
       const { token, email: responseEmail, type } = response.data;
       
       // Stocker les données dans le localStorage

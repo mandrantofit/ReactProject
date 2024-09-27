@@ -19,7 +19,7 @@ const Modele = () => {
 
   const fetchModeles = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/materiel/modele');
+      const response = await axios.get('http://172.25.52.205:8000/materiel/modele');
       setModeles(response.data);
       setLoading(false);
     } catch (error) {
@@ -51,10 +51,10 @@ const Modele = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:8000/materiel/modele/${formData.id}`, { modele: formData.modele });
+        await axios.put(`http://172.25.52.205:8000/materiel/modele/${formData.id}`, { modele: formData.modele });
         toast.success('Modèle mis à jour avec succès');
       } else {
-        await axios.post('http://localhost:8000/materiel/modele', { modele: formData.modele });
+        await axios.post('http://172.25.52.205:8000/materiel/modele', { modele: formData.modele });
         toast.success('Modèle créé avec succès');
       }
       fetchModeles();
@@ -66,7 +66,7 @@ const Modele = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/materiel/modele/${id}`);
+      await axios.delete(`http://172.25.52.205:8000/materiel/modele/${id}`);
       toast.success('Modèle supprimé avec succès');
       fetchModeles();
     } catch (error) {

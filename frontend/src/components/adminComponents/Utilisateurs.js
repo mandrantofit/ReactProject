@@ -22,7 +22,7 @@ const Utilisateurs = () => {
 
   const fetchUtilisateurs = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/login');
+      const response = await axios.get('http://172.25.52.205:8000/login');
       const dataWithIds = response.data.map((user, index) => ({
         ...user,
         ID_logUser: user.ID_logUser || index + 1,
@@ -41,10 +41,10 @@ const Utilisateurs = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:8000/login/${selectedId}`, formData);
+        await axios.put(`http://172.25.52.205:8000/login/${selectedId}`, formData);
         toast.success('Modification faite avec succès');
       } else {
-        await axios.post('http://localhost:8000/login/ajout', formData);
+        await axios.post('http://172.25.52.205:8000/login/ajout', formData);
         toast.success('Ajout fait avec succès');
       }
       setFormData({ email: '', password: '', type: 'user' });
@@ -66,7 +66,7 @@ const Utilisateurs = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
       try {
-        await axios.delete(`http://localhost:8000/login/${id}`);
+        await axios.delete(`http://172.25.52.205:8000/login/${id}`);
         fetchUtilisateurs();
         toast.success("Utilisateur supprimé avec succès");
       } catch (error) {

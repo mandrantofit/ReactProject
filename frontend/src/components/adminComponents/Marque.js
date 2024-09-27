@@ -19,7 +19,7 @@ const Marque = () => {
 
   const fetchMarques = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/materiel/marque');
+      const response = await axios.get('http://172.25.52.205:8000/materiel/marque');
       setMarques(response.data);
       setLoading(false);
     } catch (error) {
@@ -51,10 +51,10 @@ const Marque = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://localhost:8000/materiel/marque/${formData.id}`, { marque: formData.marque });
+        await axios.put(`http://172.25.52.205:8000/materiel/marque/${formData.id}`, { marque: formData.marque });
         toast.success('Marque mise à jour avec succès');
       } else {
-        await axios.post('http://localhost:8000/materiel/marque', { marque: formData.marque });
+        await axios.post('http://172.25.52.205:8000/materiel/marque', { marque: formData.marque });
         toast.success('Marque créée avec succès');
       }
       fetchMarques();
@@ -66,7 +66,7 @@ const Marque = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8000/materiel/marque/${id}`);
+      await axios.delete(`http://172.25.52.205:8000/materiel/marque/${id}`);
       toast.success('Marque supprimée avec succès');
       fetchMarques();
     } catch (error) {

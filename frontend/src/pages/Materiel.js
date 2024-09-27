@@ -34,7 +34,7 @@ const Materiel = () => {
 
   const fetchMarques = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/materiel/marque');
+      const response = await axios.get('http://172.25.52.205:8000/materiel/marque');
       setMarques(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des marques:', error);
@@ -43,7 +43,7 @@ const Materiel = () => {
 
   const fetchModeles = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/materiel/modele');
+      const response = await axios.get('http://172.25.52.205:8000/materiel/modele');
       setModeles(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des modèles:', error);
@@ -53,7 +53,7 @@ const Materiel = () => {
 
   const fetchMateriel = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/materiel');
+      const response = await axios.get('http://172.25.52.205:8000/materiel');
       setMateriels(response.data);
       setLoading(false);
     } catch (error) {
@@ -64,7 +64,7 @@ const Materiel = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/getCategorie');
+      const response = await axios.get('http://172.25.52.205:8000/getCategorie');
       setCategories(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des catégories:', error);
@@ -73,7 +73,7 @@ const Materiel = () => {
 
   const fetchEtats = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/getEtat');
+      const response = await axios.get('http://172.25.52.205:8000/getEtat');
       setEtats(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des états:', error);
@@ -82,7 +82,7 @@ const Materiel = () => {
 
   const fetchFournisseurs = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/getFournisseur');
+      const response = await axios.get('http://172.25.52.205:8000/getFournisseur');
       setFournisseurs(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des fournisseurs:', error);
@@ -108,7 +108,7 @@ const Materiel = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:8000/materiel', formData);
+      await axios.post('http://172.25.52.205:8000/materiel', formData);
       setFormData({
         code: '',
         modele: '',
@@ -133,7 +133,7 @@ const Materiel = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:8000/materiel/${selectedId}`, formData);
+      await axios.put(`http://172.25.52.205:8000/materiel/${selectedId}`, formData);
       setFormData({
         code: '',
         modele: '',
@@ -157,7 +157,7 @@ const Materiel = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce matériel ?")) {
       try {
-        await axios.delete(`http://localhost:8000/materiel/${id}`);
+        await axios.delete(`http://172.25.52.205:8000/materiel/${id}`);
         toast.success('Matériel supprimé avec succès !');
         fetchMateriel();  // Mettre à jour la liste après suppression
       } catch (error) {
