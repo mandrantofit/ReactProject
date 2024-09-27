@@ -224,7 +224,7 @@ const Materiel = () => {
       'modele',
       'numero_serie',
       'type',
-      'config',
+      'config', // On garde ce champ comme un seul élément sans séparation
       'etat',
       'fournisseur',
       'bon_de_commande',
@@ -232,7 +232,7 @@ const Materiel = () => {
       'attribution',
     ];
   
-    // Créer un tableau d'en-têtes spécifiques
+    // Créer un tableau d'en-têtes spécifiques (correspond à selectedFields)
     const headers = [
       'Code', 
       'Numéro d\'Inventaire', 
@@ -240,7 +240,7 @@ const Materiel = () => {
       'Modèle', 
       'Numéro de Série', 
       'Catégorie', 
-      'Configuration', 
+      'Configuration', // Champ unique pour config
       'État', 
       'Fournisseur', 
       'Bon de Commande', 
@@ -251,11 +251,7 @@ const Materiel = () => {
     // Créer un tableau des lignes de données
     const data = materiels.map(row => {
       return selectedFields.map(field => {
-        let value = row[field] || '';
-        // Si la valeur contient une virgule, l'entourer de guillemets
-        if (value.includes(',')) {
-          value = `"${value}"`;
-        }
+        let value = row[field] || '';  // Si le champ est vide, on met une chaîne vide
         return value;
       });
     });
@@ -263,22 +259,15 @@ const Materiel = () => {
     // Ajouter l'en-tête aux données
     const finalData = [headers, ...data];
   
-    // Convertir en format CSV avec virgules comme séparateurs
-    const csvContent = finalData.map(e => e.join(",")).join("\n");
+    // Créer une nouvelle feuille de calcul avec les données
+    const worksheet = XLSX.utils.aoa_to_sheet(finalData);
   
-    // Créer un Blob pour générer le fichier CSV
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    
-    // Créer un lien pour le téléchargement
-    const link = document.createElement("a");
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "materiels.xlsx");
-    link.style.visibility = 'hidden';
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Créer un classeur (workbook)
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Matériels");
+  
+    // Générer et télécharger le fichier XLSX
+    XLSX.writeFile(workbook, 'materiels.xlsx', { bookType: 'xlsx', type: 'binary' });
   
     toast.success("Fichier xlsx créé avec succès");
   };
