@@ -18,7 +18,7 @@ const Navbar = () => {
   const isAdmin = localStorage.getItem('type') === 'admin';
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
         <Link className="navbar-brand">
           <img src={canalLogo} alt="Canal+" style={{ height: '40px' }} /> {/* Ajout du logo ici */}
@@ -29,24 +29,24 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/materiel">Matériel</Link>
+              <Link className="nav-link text-light" to="/materiel">Matériel</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/affectation">Affectation</Link>
+              <Link className="nav-link text-light" to="/affectation">Affectation</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/stock">Stock</Link>
+              <Link className="nav-link text-light" to="/stock">Stock</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/utilisateur">Utilisateur</Link>
+              <Link className="nav-link text-light" to="/utilisateur">Utilisateur</Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/aide">Aide</Link> {/* Ajouter le lien vers Aide */}
+              <Link className="nav-link text-light" to="/aide">Aide</Link> {/* Ajouter le lien vers Aide */}
             </li>
             {/* Afficher le lien Admin uniquement si l'utilisateur est un admin */}
             {isAdmin && (
               <li className="nav-item">
-                <Link className="nav-link" to="/admin">Admin</Link>
+                <Link className="nav-link text-light" to="/admin">Admin</Link>
               </li>
             )}
             
