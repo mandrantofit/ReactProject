@@ -216,21 +216,46 @@ const Materiel = () => {
 
 
   const exportToCSV = () => {
-    const headers = columns.map(column => column.headerName);
+    // Liste des champs à inclure dans l'export
+    const selectedFields = [
+      'code',
+      'numero_inventaire',
+      'marque',
+      'modele',
+      'numero_serie',
+      'type',
+      'config',
+      'etat',
+      'fournisseur',
+      'bon_de_commande',
+      'bon_de_livraison',
+      'attribution',
+    ];
+  
+    // Créer un tableau d'en-têtes spécifiques
+    const headers = columns
+      .filter(column => selectedFields.includes(column.field))
+      .map(column => column.headerName);
+  
+    // Créer un tableau des lignes de données
     const data = materiels.map(row => {
       const newRow = {};
-      columns.forEach(column => {
-        newRow[column.field] = row[column.field];
+      selectedFields.forEach(field => {
+        newRow[field] = row[field];
       });
       return newRow;
     });
-
+  
+    // Créer un nouveau classeur et une feuille de calcul
     const worksheet = XLSX.utils.json_to_sheet(data, { header: headers });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Materiels');
-    XLSX.writeFile(workbook, 'materiels.xlsx');
-    toast.success('csv crée avec succès !');
+  
+    // Générer un fichier CSV et le télécharger
+    XLSX.writeFile(workbook, 'materiels.csv');
+    toast.success("csv crée avec sucsses");
   };
+  
 
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
