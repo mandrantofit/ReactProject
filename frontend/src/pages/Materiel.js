@@ -293,6 +293,7 @@ const Materiel = () => {
       headerName: 'État',
       width: 120,
       renderCell: (params) => {
+        console.log(params);
         const etatDescription = etatsMapping[params.value];
 
         let badgeClass = 'badge bg-secondary'; // couleur par défaut
