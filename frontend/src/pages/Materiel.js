@@ -261,7 +261,7 @@ const Materiel = () => {
     const finalData = [headers, ...data];
   
     // Demander à l'utilisateur le type de fichier à télécharger
-    const fileType = window.prompt("Entrez le type de fichier à télécharger (csv, xlsx, xls) :", "xlsx");
+    const fileType = window.prompt("Entrez le type de fichier à télécharger (xlsx , xls , csv) :", "xlsx");
   
     // Vérifier le type de fichier et effectuer l'exportation
     if (fileType === 'xlsx' || fileType === 'xls') {
