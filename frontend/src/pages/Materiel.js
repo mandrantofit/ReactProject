@@ -272,7 +272,7 @@ const Materiel = () => {
     toast.success("Fichier xlsx créé avec succès");
   };
 
-  
+
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
     { field: 'marque', headerName: 'Marque', width: 120 },
@@ -307,7 +307,23 @@ const Materiel = () => {
     { field: 'fournisseur', headerName: 'Fournisseur', width: 100 },
     { field: 'bon_de_commande', headerName: 'Bon de Commande', width: 140 },
     { field: 'bon_de_livraison', headerName: 'Bon de Livraison', width: 140 },
-    { field: 'attribution', headerName: 'Matériel Affecté', width: 140 },
+    {
+      field: 'attribution',
+      headerName: 'Matériel Affecté',
+      width: 140,
+      renderCell: (params) => {
+        const attributionValue = params.value; // Récupérez la valeur de l'attribution
+
+        // Définir la classe de badge en fonction de la valeur
+        const badgeClass = attributionValue === 'Oui' ? 'badge bg-success' : 'badge bg-danger';
+
+        return (
+          <span className={badgeClass}>
+            {attributionValue}
+          </span>
+        );
+      },
+    },
     {
       field: 'actions',
       headerName: 'Actions',
