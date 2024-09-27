@@ -232,7 +232,7 @@ const Materiel = () => {
       'bon_de_livraison',
       'attribution',
     ];
-  
+
     // Créer un tableau d'en-têtes spécifiques (correspond à selectedFields)
     const headers = [
       'Code',
@@ -248,7 +248,7 @@ const Materiel = () => {
       'Bon de Livraison',
       'Matériel Affecté'
     ];
-  
+
     // Créer un tableau des lignes de données
     const data = materiels.map(row => {
       return selectedFields.map(field => {
@@ -256,30 +256,30 @@ const Materiel = () => {
         return value;
       });
     });
-  
+
     // Ajouter l'en-tête aux données
     const finalData = [headers, ...data];
-  
+
     // Demander à l'utilisateur le type de fichier à télécharger
     const fileType = window.prompt("Entrez le type de fichier à télécharger (xlsx , xls , csv) :", "xlsx");
-  
+
     // Vérifier le type de fichier et effectuer l'exportation
     if (fileType === 'xlsx' || fileType === 'xls') {
       // Créer une nouvelle feuille de calcul avec les données
       const worksheet = XLSX.utils.aoa_to_sheet(finalData);
-  
-      // Créer un classeur (workbook)
+
+      // Créer un classeur (workbook), 
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Matériels");
-  
+
       // Générer et télécharger le fichier XLSX
       XLSX.writeFile(workbook, `materiels.${fileType}`, { bookType: fileType, type: 'binary' });
-  
+
       toast.success("Fichier xlsx créé avec succès");
     } else if (fileType === 'csv') {
       // Convertir les données en CSV
       const csvContent = finalData.map(e => e.join(",")).join("\n");
-  
+
       // Créer un fichier CSV et le télécharger
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement("a");
@@ -290,12 +290,12 @@ const Materiel = () => {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-  
+
       toast.success("Fichier CSV créé avec succès");
     } else {
       toast.error("Type de fichier non supporté !");
     }
-  };  
+  };
 
 
   const columns = [
@@ -421,6 +421,17 @@ const Materiel = () => {
                 <form onSubmit={handleAdd}>
                   <h5 className='text-center'>Informations Générales</h5>
                   <div className="mb-3">
+                    <label className="form-label">Code</label>
+                    <input
+                      type="text"
+                      name="code"
+                      value={formData.code}
+                      onChange={handleChange}
+                      className="form-control"
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
                     <label className="form-label">Marque</label>
                     <select
                       name="marque"
@@ -435,17 +446,7 @@ const Materiel = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Code</label>
-                    <input
-                      type="text"
-                      name="code"
-                      value={formData.code}
-                      onChange={handleChange}
-                      className="form-control"
-                      required
-                    />
-                  </div>
+
                   <div className="mb-3">
                     <label className="form-label">Modèle</label>
                     <select
@@ -591,6 +592,17 @@ const Materiel = () => {
                 <form onSubmit={handleUpdate}>
                   <h5 className='text-center'>Informations Générales</h5>
                   <div className="mb-3">
+                    <label className="form-label">Code</label>
+                    <input
+                      type="text"
+                      name="code"
+                      value={formData.code}
+                      onChange={handleChange}
+                      className="form-control"
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
                     <label className="form-label">Marque</label>
                     <select
                       name="marque"
@@ -605,17 +617,7 @@ const Materiel = () => {
                       ))}
                     </select>
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Code</label>
-                    <input
-                      type="text"
-                      name="code"
-                      value={formData.code}
-                      onChange={handleChange}
-                      className="form-control"
-                      required
-                    />
-                  </div>
+
                   <div className="mb-3">
                     <label className="form-label">Modèle</label>
                     <select
