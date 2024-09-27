@@ -293,15 +293,14 @@ const Materiel = () => {
       headerName: 'État',
       width: 120,
       renderCell: (params) => {
-        console.log(params);
-        const etatDescription = etatsMapping[params.value];
+        const etatDescription = params.formattedValue; // Utilisez formattedValue
 
         let badgeClass = 'badge bg-secondary'; // couleur par défaut
-        switch (params.value) {
-          case 1: badgeClass = 'badge bg-success'; break; // Neuf
-          case 2: badgeClass = 'badge bg-primary'; break; // Utilisable
-          case 3: badgeClass = 'badge bg-warning'; break; // Réparable
-          case 4: badgeClass = 'badge bg-danger'; break; // Irréparable
+        switch (etatDescription) {
+          case 'Neuf': badgeClass = 'badge bg-success'; break;
+          case 'Utilisable': badgeClass = 'badge bg-primary'; break;
+          case 'Réparable': badgeClass = 'badge bg-warning'; break;
+          case 'Irréparable': badgeClass = 'badge bg-danger'; break;
           default: badgeClass = 'badge bg-secondary'; // Par défaut
         }
 
