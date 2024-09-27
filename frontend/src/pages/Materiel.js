@@ -272,6 +272,13 @@ const Materiel = () => {
     toast.success("Fichier xlsx créé avec succès");
   };
 
+  const etatsMapping = {
+    1: 'Neuf',
+    2: 'Utilisable',
+    3: 'Réparable',
+    4: 'Irréparable',
+  };
+
 
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
@@ -281,7 +288,31 @@ const Materiel = () => {
     { field: 'numero_serie', headerName: 'Numéro de Série', width: 150 },
     { field: 'type', headerName: 'Catégorie', width: 200 },
     { field: 'config', headerName: 'Configuration', width: 200 },
-    { field: 'etat', headerName: 'État', width: 80 },
+    {
+      field: 'etat',
+      headerName: 'État',
+      width: 120,
+      renderCell: (params) => {
+        // Récupérer la description de l'état
+        const etatDescription = etatsMapping[params.value];
+
+        // Appliquer des badges de couleur en fonction de l'état
+        let badgeVariant = 'secondary'; // couleur par défaut
+        switch (params.value) {
+          case 1: badgeVariant = 'success'; break; // Neuf
+          case 2: badgeVariant = 'primary'; break; // Utilisable
+          case 3: badgeVariant = 'warning'; break; // Réparable
+          case 4: badgeVariant = 'danger'; break; // Irréparable
+          default: badgeVariant = 'secondary'; // Par défaut
+        }
+
+        return (
+          <Badge pill bg={badgeVariant}>
+            {etatDescription}
+          </Badge>
+        );
+      },
+    },
     { field: 'fournisseur', headerName: 'Fournisseur', width: 100 },
     { field: 'bon_de_commande', headerName: 'Bon de Commande', width: 140 },
     { field: 'bon_de_livraison', headerName: 'Bon de Livraison', width: 140 },
