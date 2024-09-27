@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaFileExport } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
@@ -231,23 +231,23 @@ const Materiel = () => {
       'bon_de_livraison',
       'attribution',
     ];
-  
+
     // Créer un tableau d'en-têtes spécifiques (correspond à selectedFields)
     const headers = [
-      'Code', 
-      'Numéro d\'Inventaire', 
-      'Marque', 
-      'Modèle', 
-      'Numéro de Série', 
-      'Catégorie', 
+      'Code',
+      'Numéro d\'Inventaire',
+      'Marque',
+      'Modèle',
+      'Numéro de Série',
+      'Catégorie',
       'Configuration', // Champ unique pour config
-      'État', 
-      'Fournisseur', 
-      'Bon de Commande', 
-      'Bon de Livraison', 
+      'État',
+      'Fournisseur',
+      'Bon de Commande',
+      'Bon de Livraison',
       'Matériel Affecté'
     ];
-  
+
     // Créer un tableau des lignes de données
     const data = materiels.map(row => {
       return selectedFields.map(field => {
@@ -255,23 +255,23 @@ const Materiel = () => {
         return value;
       });
     });
-  
+
     // Ajouter l'en-tête aux données
     const finalData = [headers, ...data];
-  
+
     // Créer une nouvelle feuille de calcul avec les données
     const worksheet = XLSX.utils.aoa_to_sheet(finalData);
-  
+
     // Créer un classeur (workbook)
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Matériels");
-  
+
     // Générer et télécharger le fichier XLSX
     XLSX.writeFile(workbook, 'materiels.xlsx', { bookType: 'xlsx', type: 'binary' });
-  
+
     toast.success("Fichier xlsx créé avec succès");
   };
-    
+
 
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
@@ -315,7 +315,7 @@ const Materiel = () => {
               Ajouter Matériel
             </button>
             <button className="btn btn-success mb-3" onClick={exportToCSV}>
-              Exporter en CSV
+              <FaFileExport className="me-2" />
             </button>
           </div>
           {loading ? (
