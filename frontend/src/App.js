@@ -4,7 +4,7 @@ import Admin from './pages/Admin';
 import AdminRoute from './routes/AdminRoute';
 import Login from './pages/Login';
 import Materiel from './pages/Materiel';
-import Inventaire from './pages/Inventaire';
+import Stock from './pages/Stock';
 import Affectation from './pages/Affectation';
 import Utilisateur from './pages/User';
 import Aide from './pages/Aide'; // Importer la page Aide
@@ -24,7 +24,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/materiel" element={<PrivateRoute><Materiel /></PrivateRoute>} />
-        <Route path="/inventaire" element={<PrivateRoute><Inventaire /></PrivateRoute>} />
+        <Route path="/stock" element={<PrivateRoute><Stock /></PrivateRoute>} />
         <Route path="/affectation" element={<PrivateRoute><Affectation /></PrivateRoute>} />
         <Route path="/utilisateur" element={<PrivateRoute><Utilisateur /></PrivateRoute>} />
         <Route path="/" element={<Login />} />

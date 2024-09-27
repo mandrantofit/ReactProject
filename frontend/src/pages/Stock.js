@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Inventaire = () => {
+const Stock = () => {
   const [inventaire, setInventaire] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -65,4 +65,4 @@ const Inventaire = () => {
   );
 };
 
-export default Inventaire;
+export default Stock;
