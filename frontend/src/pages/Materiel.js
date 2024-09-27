@@ -273,14 +273,14 @@ const Materiel = () => {
     const link = document.createElement("a");
     const url = URL.createObjectURL(blob);
     link.setAttribute("href", url);
-    link.setAttribute("download", "materiels.csv");
+    link.setAttribute("download", "materiels.xlsx");
     link.style.visibility = 'hidden';
     
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
   
-    toast.success("Fichier CSV créé avec succès");
+    toast.success("Fichier xlsx créé avec succès");
   };
     
 
