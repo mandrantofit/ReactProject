@@ -250,24 +250,39 @@ const Materiel = () => {
   
     // Créer un tableau des lignes de données
     const data = materiels.map(row => {
-      const newRow = selectedFields.map(field => row[field] || '');  // Récupère les valeurs des champs sélectionnés
-      return newRow;
+      return selectedFields.map(field => {
+        let value = row[field] || '';
+        // Si la valeur contient une virgule, l'entourer de guillemets
+        if (value.includes(',')) {
+          value = `"${value}"`;
+        }
+        return value;
+      });
     });
   
     // Ajouter l'en-tête aux données
     const finalData = [headers, ...data];
   
-    // Créer un nouveau classeur et une feuille de calcul
-    const worksheet = XLSX.utils.aoa_to_sheet(finalData);  // Utilise `aoa_to_sheet` pour structurer correctement les lignes et colonnes
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Materiels');
+    // Convertir en format CSV avec virgules comme séparateurs
+    const csvContent = finalData.map(e => e.join(",")).join("\n");
   
-    // Générer un fichier CSV et le télécharger
-    XLSX.writeFile(workbook, 'materiels.csv');
+    // Créer un Blob pour générer le fichier CSV
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    
+    // Créer un lien pour le téléchargement
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute("download", "materiels.csv");
+    link.style.visibility = 'hidden';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  
     toast.success("Fichier CSV créé avec succès");
   };
-  
-  
+    
 
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
