@@ -315,7 +315,7 @@ const Materiel = () => {
         const attributionValue = params.value; // Récupérez la valeur de l'attribution
 
         // Définir la classe de badge en fonction de la valeur
-        const badgeClass = attributionValue === 'Oui' ? 'badge bg-success' : 'badge bg-danger';
+        const badgeClass = attributionValue === 'Oui' ? 'badge bg-warning' : 'badge bg-success';
 
         return (
           <span className={badgeClass}>
