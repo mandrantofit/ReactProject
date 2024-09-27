@@ -233,28 +233,40 @@ const Materiel = () => {
     ];
   
     // Créer un tableau d'en-têtes spécifiques
-    const headers = columns
-      .filter(column => selectedFields.includes(column.field))
-      .map(column => column.headerName);
+    const headers = [
+      'Code', 
+      'Numéro d\'Inventaire', 
+      'Marque', 
+      'Modèle', 
+      'Numéro de Série', 
+      'Catégorie', 
+      'Configuration', 
+      'État', 
+      'Fournisseur', 
+      'Bon de Commande', 
+      'Bon de Livraison', 
+      'Matériel Affecté'
+    ];
   
     // Créer un tableau des lignes de données
     const data = materiels.map(row => {
-      const newRow = {};
-      selectedFields.forEach(field => {
-        newRow[field] = row[field];
-      });
+      const newRow = selectedFields.map(field => row[field] || '');  // Récupère les valeurs des champs sélectionnés
       return newRow;
     });
   
+    // Ajouter l'en-tête aux données
+    const finalData = [headers, ...data];
+  
     // Créer un nouveau classeur et une feuille de calcul
-    const worksheet = XLSX.utils.json_to_sheet(data, { header: headers });
+    const worksheet = XLSX.utils.aoa_to_sheet(finalData);  // Utilise `aoa_to_sheet` pour structurer correctement les lignes et colonnes
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Materiels');
   
     // Générer un fichier CSV et le télécharger
     XLSX.writeFile(workbook, 'materiels.csv');
-    toast.success("fichier excel crée avec sucsses");
+    toast.success("Fichier CSV créé avec succès");
   };
+  
   
 
   const columns = [
