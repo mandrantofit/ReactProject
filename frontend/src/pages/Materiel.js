@@ -272,14 +272,7 @@ const Materiel = () => {
     toast.success("Fichier xlsx créé avec succès");
   };
 
-  const etatsMapping = {
-    1: 'Neuf',
-    2: 'Utilisable',
-    3: 'Réparable',
-    4: 'Irréparable',
-  };
-
-
+  
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
     { field: 'marque', headerName: 'Marque', width: 120 },
