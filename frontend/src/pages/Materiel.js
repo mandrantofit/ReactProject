@@ -228,7 +228,7 @@ const Materiel = () => {
     const worksheet = XLSX.utils.json_to_sheet(data, { header: headers });
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Materiels');
-    XLSX.writeFile(workbook, 'materiels.csv');
+    XLSX.writeFile(workbook, 'materiels.xlsx');
     toast.success('csv crée avec succès !');
   };
 
