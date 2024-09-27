@@ -3,6 +3,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash, FaFileExport } from 'react-icons/fa';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
@@ -352,9 +353,14 @@ const Materiel = () => {
             <button className="btn btn-success" onClick={() => setShowModal(true)}>
               Ajouter Matériel
             </button>
-            <button className="btn btn-success mb-3" onClick={exportToXLSX}>
-              <FaFileExport className="me-2" />
-            </button>
+            <OverlayTrigger
+              placement="top"
+              overlay={<Tooltip id="export-tooltip">Exporter en Excel</Tooltip>}
+            >
+              <button className="btn btn-success mb-3" onClick={exportToXLSX}>
+                <FaFileExport className="me-2" />
+              </button>
+            </OverlayTrigger>
           </div>
           {loading ? (
             <div className="text-center">
