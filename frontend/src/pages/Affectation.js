@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaUndo as FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Tab, Nav , Modal} from 'react-bootstrap';
+import { Tab, Nav, Modal } from 'react-bootstrap';
 
 const Affectation = () => {
   const [affectations, setAffectations] = useState([]);
@@ -125,7 +125,7 @@ const Affectation = () => {
       toast.error('Erreur lors de la mise à jour de l\'affectation:', error);
     }
   };
-  
+
   // Handle Delete
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir désaffecter ce matériel ?")) {
@@ -280,7 +280,7 @@ const Affectation = () => {
       {/* Add Modal */}
       <Modal show={showModal} onHide={() => setShowModal(false)} backdrop="static">
         <Modal.Header closeButton>
-          <Modal.Title>Ajouter une Affectation</Modal.Title>
+          <Modal.Title>Affecter une matériel</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form onSubmit={handleAdd}>
@@ -319,11 +319,11 @@ const Affectation = () => {
               </select>
             </div>
             <button type="submit" className="btn btn-primary ms-2">
-              Ajouter
+              Affecter
             </button>
             <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-        Annuler
-      </button>
+              Annuler
+            </button>
           </form>
         </Modal.Body>
       </Modal>
@@ -373,8 +373,8 @@ const Affectation = () => {
               Modifier
             </button>
             <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>
-        Annuler
-      </button>
+              Annuler
+            </button>
           </form>
         </Modal.Body>
       </Modal>

@@ -35,7 +35,7 @@ const Stock = () => {
     <div className="container mt-4">
       <div className="card shadow-sm">
         <div className="card-header bg-dark text-white">
-          <h4 className="mb-0">Inventaire des Matériels Non Attribués</h4>
+          <h4 className="mb-0">Liste des matériels non attribués</h4>
         </div>
         <div className="card-body">
           {loading ? (
