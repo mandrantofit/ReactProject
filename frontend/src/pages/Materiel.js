@@ -216,7 +216,7 @@ const Materiel = () => {
   };
 
 
-  const exportToFile = () => {
+  const exportToXLSX = () => {
     // Liste des champs à inclure dans l'export
     const selectedFields = [
       'code',
