@@ -18,7 +18,7 @@ const Navbar = () => {
   const isAdmin = localStorage.getItem('type') === 'admin';
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-secondary">
       <div className="container-fluid">
         <Link className="navbar-brand">
           <img src={canalLogo} alt="Canal+" style={{ height: '40px' }} /> {/* Ajout du logo ici */}
