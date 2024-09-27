@@ -252,7 +252,7 @@ const Materiel = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Materiels');
   
     // Générer un fichier CSV et le télécharger
-    XLSX.writeFile(workbook, 'materiels.xlsx');
+    XLSX.writeFile(workbook, 'materiels.csv');
     toast.success("fichier excel crée avec sucsses");
   };
   
