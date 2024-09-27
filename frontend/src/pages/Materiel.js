@@ -5,7 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash, FaFileExport } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Badge } from 'react-bootstrap';
 import * as XLSX from 'xlsx';
 
 const Materiel = () => {
@@ -294,23 +293,21 @@ const Materiel = () => {
       headerName: 'État',
       width: 120,
       renderCell: (params) => {
-        // Récupérer la description de l'état
         const etatDescription = etatsMapping[params.value];
 
-        // Appliquer des badges de couleur en fonction de l'état
-        let badgeVariant = 'secondary'; // couleur par défaut
+        let badgeClass = 'badge bg-secondary'; // couleur par défaut
         switch (params.value) {
-          case 1: badgeVariant = 'success'; break; // Neuf
-          case 2: badgeVariant = 'primary'; break; // Utilisable
-          case 3: badgeVariant = 'warning'; break; // Réparable
-          case 4: badgeVariant = 'danger'; break; // Irréparable
-          default: badgeVariant = 'secondary'; // Par défaut
+          case 1: badgeClass = 'badge bg-success'; break; // Neuf
+          case 2: badgeClass = 'badge bg-primary'; break; // Utilisable
+          case 3: badgeClass = 'badge bg-warning'; break; // Réparable
+          case 4: badgeClass = 'badge bg-danger'; break; // Irréparable
+          default: badgeClass = 'badge bg-secondary'; // Par défaut
         }
 
         return (
-          <Badge pill bg={badgeVariant}>
+          <span className={badgeClass}>
             {etatDescription}
-          </Badge>
+          </span>
         );
       },
     },
