@@ -215,7 +215,7 @@ const Materiel = () => {
   };
 
 
-  const exportToCSV = () => {
+  const exportToXLSX = () => {
     // Liste des champs à inclure dans l'export
     const selectedFields = [
       'code',
@@ -314,7 +314,7 @@ const Materiel = () => {
             <button className="btn btn-success" onClick={() => setShowModal(true)}>
               Ajouter Matériel
             </button>
-            <button className="btn btn-success mb-3" onClick={exportToCSV}>
+            <button className="btn btn-success mb-3" onClick={exportToXLSX}>
               <FaFileExport className="me-2" />
             </button>
           </div>
