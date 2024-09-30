@@ -122,12 +122,11 @@ const Materiel = () => {
     if (selectedCommande) {
       setFormData({
         ...formData,
-        numero_serie: selectedNumeroSerie,
-        bon_de_commande: selectedCommande.bon_de_commande,
-        bon_de_livraison: selectedCommande.bon_de_livraison
+        numero_serie: selectedCommande.numero_serie,
+        bon_de_commande: selectedCommande.bon_de_commande || '',
+        bon_de_livraison: selectedCommande.bon_de_livraison || ''
       });
     } else {
-      // Si aucune commande n'est trouvée pour ce numéro de série, vide les champs Bon de Commande et Bon de Livraison
       setFormData({
         ...formData,
         numero_serie: selectedNumeroSerie,
@@ -136,6 +135,7 @@ const Materiel = () => {
       });
     }
   };
+
 
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
@@ -594,8 +594,6 @@ const Materiel = () => {
                       ))}
                     </select>
                   </div>
-
-
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
                     <input
@@ -616,6 +614,7 @@ const Materiel = () => {
                       className="form-control"
                     />
                   </div>
+
 
 
                   <button type="submit" className="btn btn-primary">Ajouter</button>
@@ -775,8 +774,6 @@ const Materiel = () => {
                       ))}
                     </select>
                   </div>
-
-
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
                     <input
@@ -797,6 +794,7 @@ const Materiel = () => {
                       className="form-control"
                     />
                   </div>
+
 
 
                   <button type="submit" className="btn btn-primary">Mettre à jour</button>
