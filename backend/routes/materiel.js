@@ -4,7 +4,7 @@ const db = require('../model/database');
 
 router.post('/', (req, res) => {
     const { code, modele, marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison } = req.body;
-    if (!code || !modele || !marque || !numero_serie || !numero_inventaire || !ID_categorie || !ID_etat || !ID_fournisseur) {
+    if (!code || !modele || !marque || !numero_serie || !ID_categorie || !ID_etat || !ID_fournisseur) {
         return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
     }
     const sqlCheckNumeroSerie = 'SELECT * FROM materiel WHERE numero_serie = ?';
@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     const { id } = req.params;
     const { code , modele , marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison } = req.body;
-    if (!id || !code|| !modele || !marque || !numero_serie || !numero_inventaire || !ID_categorie || !ID_etat || !ID_fournisseur) {
+    if (!id || !code|| !modele || !marque || !numero_serie || !ID_categorie || !ID_etat || !ID_fournisseur) {
         return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
     }
     const sqlCheckNumeroSerie = 'SELECT * FROM materiel WHERE numero_serie = ? AND ID_materiel != ?';
