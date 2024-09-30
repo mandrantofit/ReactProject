@@ -99,7 +99,7 @@ router.get('/', (req, res) => {
     materiel.marque,
     materiel.numero_serie,
     CASE 
-        WHEN materiel.numero_inventaire IS NULL OR materiel.numero_inventaire = '' THEN 'NULL' 
+        WHEN materiel.numero_inventaire IS NULL OR materiel.numero_inventaire = '' THEN 'N/A' 
         ELSE materiel.numero_inventaire 
     END AS numero_inventaire,
     categorie.type AS type,
