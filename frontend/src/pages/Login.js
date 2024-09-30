@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -47,15 +48,24 @@ const Login = () => {
 
             <div className="form-group mb-3">
               <label htmlFor="password">Mot de passe</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder=""
-                required
-              />
+              <div className="input-group">
+                <input
+                  type={isPasswordVisible ? 'text' : 'password'} // Modifier le type en fonction de la visibilité
+                  className="form-control"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder=""
+                  required
+                />
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary"
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Bascule la visibilité
+                >
+                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Afficher l'icône correspondante */}
+                </button>
+              </div>
             </div>
 
             {error && <div className="alert alert-danger">{error}</div>}
