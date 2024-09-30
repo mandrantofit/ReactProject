@@ -10,7 +10,6 @@ import * as XLSX from 'xlsx';
 
 const Materiel = () => {
   const [materiels, setMateriels] = useState([]);
-  const [commandes, setCommandes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [etats, setEtats] = useState([]);
   const [fournisseurs, setFournisseurs] = useState([]);
@@ -33,15 +32,6 @@ const Materiel = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [possibilites, setPossibilites] = useState([]);
-
-  const fetchCommandes = async () => {
-    try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/commandes');
-      setCommandes(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des commandes:', error);
-    }
-  };
 
   const fetchPossibilites = async () => {
     try {
@@ -96,9 +86,7 @@ const Materiel = () => {
     fetchEtats();
     fetchFournisseurs();
     fetchPossibilites();
-    fetchCommandes();
-    console.log("FormData mis à jour:", formData);
-  }, [formData]);
+  }, []);
 
 
   // Lorsque le code est sélectionné, met automatiquement à jour la marque et le modèle
@@ -116,30 +104,6 @@ const Materiel = () => {
     }
   };
 
-  const handleNumeroSerieChange = (e) => {
-    const selectedNumeroSerie = e.target.value;
-    const selectedCommande = commandes.find(commande => commande.numero_serie === selectedNumeroSerie);
-
-    console.log('Numéro de Série sélectionné:', selectedNumeroSerie);
-    console.log('Commande correspondante:', selectedCommande);
-
-    if (selectedCommande) {
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        numero_serie: selectedCommande.numero_serie,
-        bon_de_commande: selectedCommande.bon_de_commande || '',
-        bon_de_livraison: selectedCommande.bon_de_livraison || ''
-      }));
-
-      // Log pour vérifier la mise à jour
-      console.log('FormData mis à jour après sélection:', {
-        ...formData,
-        numero_serie: selectedCommande.numero_serie,
-        bon_de_commande: selectedCommande.bon_de_commande || '',
-        bon_de_livraison: selectedCommande.bon_de_livraison || ''
-      });
-    }
-  };
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -509,7 +473,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-
+                      
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -579,23 +543,14 @@ const Materiel = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <select
+                    <input
+                      type="text"
                       name="numero_serie"
                       value={formData.numero_serie}
-                      onChange={(e) => {
-                        handleNumeroSerieChange(e);  // Automatisation des bons
-                        handleChange(e);  // Mise à jour du formulaire
-                      }}
-                      className="form-select"
+                      onChange={handleChange}
+                      className="form-control"
                       required
-                    >
-                      <option value="">Sélectionner un numéro de série</option>
-                      {commandes.map((commande) => (
-                        <option key={commande.numero_serie} value={commande.numero_serie}>
-                          {commande.numero_serie}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
@@ -603,19 +558,18 @@ const Materiel = () => {
                       type="text"
                       name="bon_de_commande"
                       value={formData.bon_de_commande}
+                      onChange={handleChange}
                       className="form-control"
-                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
-
                   <div className="mb-3">
                     <label className="form-label">Bon de Livraison</label>
                     <input
                       type="text"
                       name="bon_de_livraison"
                       value={formData.bon_de_livraison}
+                      onChange={handleChange}
                       className="form-control"
-                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
 
@@ -678,7 +632,7 @@ const Materiel = () => {
                       readOnly
                     />
                   </div>
-
+                  
                   <div className="mb-3">
                     <label className="form-label">Numéro d' inventaire</label>
                     <input
@@ -687,7 +641,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-
+                      
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -758,23 +712,14 @@ const Materiel = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <select
+                    <input
+                      type="text"
                       name="numero_serie"
-                      value={formData.numero_serie}
-                      onChange={(e) => {
-                        handleNumeroSerieChange(e);  // Automatisation des bons
-                        handleChange(e);  // Mise à jour du formulaire
-                      }}
-                      className="form-select"
+                      value={formData.numero_serie}//numero_inventaire
+                      onChange={handleChange}
+                      className="form-control"
                       required
-                    >
-                      <option value="">Sélectionner un numéro de série</option>
-                      {commandes.map((commande) => (
-                        <option key={commande.numero_serie} value={commande.numero_serie}>
-                          {commande.numero_serie}
-                        </option>
-                      ))}
-                    </select>
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
@@ -782,21 +727,21 @@ const Materiel = () => {
                       type="text"
                       name="bon_de_commande"
                       value={formData.bon_de_commande}
+                      onChange={handleChange}
                       className="form-control"
-                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
-
                   <div className="mb-3">
                     <label className="form-label">Bon de Livraison</label>
                     <input
                       type="text"
                       name="bon_de_livraison"
                       value={formData.bon_de_livraison}
+                      onChange={handleChange}
                       className="form-control"
-                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
+
                   <button type="submit" className="btn btn-primary">Mettre à jour</button>
                   <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>Annuler</button>
                 </form>
