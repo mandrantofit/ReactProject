@@ -120,22 +120,25 @@ const Materiel = () => {
     const selectedNumeroSerie = e.target.value;
     const selectedCommande = commandes.find(commande => commande.numero_serie === selectedNumeroSerie);
 
-    if (selectedCommande) {
-      console.log('Commande correspondante:', selectedCommande);
+    console.log('Numéro de Série sélectionné:', selectedNumeroSerie);
+    console.log('Commande correspondante:', selectedCommande);
 
-      // Mise à jour de l'état avec une fonction callback pour s'assurer que les données sont correctement prises en compte
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        numero_serie: selectedCommande.numero_serie,
-        bon_de_commande: selectedCommande.bon_de_commande || '',
-        bon_de_livraison: selectedCommande.bon_de_livraison || ''
-      }));
+    if (selectedCommande) {
+      // Mettre à jour l'état avec les données de la commande
+      setFormData(prevFormData => {
+        const updatedFormData = {
+          ...prevFormData,
+          numero_serie: selectedCommande.numero_serie,
+          bon_de_commande: selectedCommande.bon_de_commande || '',
+          bon_de_livraison: selectedCommande.bon_de_livraison || ''
+        };
+
+        console.log('FormData mis à jour:', updatedFormData);
+        return updatedFormData;
+      });
     }
   };
-
-
-
-
+  
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
     setFormData({ ...formData, [e.target.name]: e.target.value });
