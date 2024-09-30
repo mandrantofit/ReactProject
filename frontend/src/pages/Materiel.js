@@ -576,18 +576,25 @@ const Materiel = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <input
-                      type="text"
+                    <select
                       name="numero_serie"
                       value={formData.numero_serie}
                       onChange={(e) => {
-                        handleNumeroSerieChange(e); // Automatisation des bons
-                        handleChange(e); // Mise à jour du formulaire
+                        handleNumeroSerieChange(e);  // Automatisation des bons
+                        handleChange(e);  // Mise à jour du formulaire
                       }}
-                      className="form-control"
+                      className="form-select"
                       required
-                    />
+                    >
+                      <option value="">Sélectionner un numéro de série</option>
+                      {numerosSerie.map((numero) => (
+                        <option key={numero} value={numero}>
+                          {numero}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
                     <input
@@ -749,18 +756,25 @@ const Materiel = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <input
-                      type="text"
+                    <select
                       name="numero_serie"
                       value={formData.numero_serie}
                       onChange={(e) => {
-                        handleNumeroSerieChange(e); // Automatisation des bons
-                        handleChange(e); // Mise à jour du formulaire
+                        handleNumeroSerieChange(e);  // Automatisation des bons
+                        handleChange(e);  // Mise à jour du formulaire
                       }}
-                      className="form-control"
+                      className="form-select"
                       required
-                    />
+                    >
+                      <option value="">Sélectionner un numéro de série</option>
+                      {commandes.map((commande) => (
+                        <option key={commande.numero_serie} value={commande.numero_serie}>
+                          {commande.numero_serie}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
                     <input
