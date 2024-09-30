@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Commande = () => {
   const [commandes, setCommandes] = useState([]);
-  const [materiels, setMateriels] = useState([]); // Pour stocker les matériels (numéros de série)
   const [showModal, setShowModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,9 +18,16 @@ const Commande = () => {
   });
   const [loading, setLoading] = useState(true);
 
+  // Liste des numéros de série disponibles (exemples)
+  const materiels = [
+    { numero_serie: 'SERIE001' },
+    { numero_serie: 'SERIE002' },
+    { numero_serie: 'SERIE003' },
+    // Ajoutez d'autres numéros de série si nécessaire
+  ];
+
   useEffect(() => {
     fetchCommandes();
-    fetchMateriels(); // Récupérer les matériels pour le choix du numéro de série
   }, []);
 
   // Fonction pour récupérer toutes les commandes
@@ -33,16 +39,6 @@ const Commande = () => {
     } catch (error) {
       toast.error('Erreur lors de la récupération des commandes');
       setLoading(false);
-    }
-  };
-
-  // Fonction pour récupérer tous les matériels
-  const fetchMateriels = async () => {
-    try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/');
-      setMateriels(response.data);
-    } catch (error) {
-      toast.error('Erreur lors de la récupération des matériels');
     }
   };
 
