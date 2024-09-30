@@ -6,24 +6,25 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Marque = () => {
-  const [marques, setMarques] = useState([]);
+const Fiche = () => {
+  const [possibilites, setPossibilites] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [formData, setFormData] = useState({ id: '', marque: '' });
+  const [formData, setFormData] = useState({ id: '', possibilite_code: '', possibilite_marque: '', possibilite_modele: '' });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchMarques();
+    fetchPossibilites();
   }, []);
 
-  const fetchMarques = async () => {
+  // Fonction pour récupérer les possibilités
+  const fetchPossibilites = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/marque');
-      setMarques(response.data);
+      const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
+      setPossibilites(response.data);
       setLoading(false);
     } catch (error) {
-      toast.error('Erreur lors de la récupération des marques');
+      toast.error('Erreur lors de la récupération des possibilités');
       setLoading(false);
     }
   };
@@ -31,15 +32,17 @@ const Marque = () => {
   const handleOpenModal = (action, row = {}) => {
     setIsEditMode(action === 'update');
     setFormData({
-      id: row.ID_marque || '',
-      marque: row.marque || ''
+      id: row.ID_possibilite || '',
+      possibilite_code: row.possibilite_code || '',
+      possibilite_marque: row.possibilite_marque || '',
+      possibilite_modele: row.possibilite_modele || ''
     });
     setShowModal(true);
   };
 
   const handleCancel = () => {
     setShowModal(false);
-    setFormData({ id: '', marque: '' });
+    setFormData({ id: '', possibilite_code: '', possibilite_marque: '', possibilite_modele: '' });
   };
 
   const handleChange = (e) => {
@@ -51,13 +54,21 @@ const Marque = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://172.25.52.205:8000/materiel/marque/${formData.id}`, { marque: formData.marque });
-        toast.success('Marque mise à jour avec succès');
+        await axios.put(`http://172.25.52.205:8000/materiel/possibilite/${formData.id}`, {
+          possibilite_code: formData.possibilite_code,
+          possibilite_marque: formData.possibilite_marque,
+          possibilite_modele: formData.possibilite_modele
+        });
+        toast.success('Possibilité mise à jour avec succès');
       } else {
-        await axios.post('http://172.25.52.205:8000/materiel/marque', { marque: formData.marque });
-        toast.success('Marque créée avec succès');
+        await axios.post('http://172.25.52.205:8000/materiel/possibilite', {
+          possibilite_code: formData.possibilite_code,
+          possibilite_marque: formData.possibilite_marque,
+          possibilite_modele: formData.possibilite_modele
+        });
+        toast.success('Possibilité créée avec succès');
       }
-      fetchMarques();
+      fetchPossibilites();
       handleCancel();
     } catch (error) {
       toast.error('Erreur lors de la soumission du formulaire');
@@ -66,17 +77,19 @@ const Marque = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://172.25.52.205:8000/materiel/marque/${id}`);
-      toast.success('Marque supprimée avec succès');
-      fetchMarques();
+      await axios.delete(`http://172.25.52.205:8000/materiel/possibilite/${id}`);
+      toast.success('Possibilité supprimée avec succès');
+      fetchPossibilites();
     } catch (error) {
-      toast.error('Erreur lors de la suppression de la marque');
+      toast.error('Erreur lors de la suppression de la possibilité');
     }
   };
 
   const columns = [
-    { field: 'ID_marque', headerName: 'ID', width: 90 },
-    { field: 'marque', headerName: 'Marque', width: 850 },
+    { field: 'ID_possibilite', headerName: 'ID', width: 90 },
+    { field: 'possibilite_code', headerName: 'Code', width: 200 },
+    { field: 'possibilite_marque', headerName: 'Marque', width: 200 },
+    { field: 'possibilite_modele', headerName: 'Modèle', width: 200 },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -91,7 +104,7 @@ const Marque = () => {
           </button>
           <button
             className="btn btn-danger btn-sm"
-            onClick={() => handleDelete(params.row.ID_marque)}
+            onClick={() => handleDelete(params.row.ID_possibilite)}
           >
             <FaTrash />
           </button>
@@ -103,7 +116,7 @@ const Marque = () => {
   return (
     <div className="card shadow-sm">
       <div className="card-header bg-dark text-white">
-        <h5 className="mb-0">Gestion des Marques</h5>
+        <h5 className="mb-0">Gestion des Fiches</h5>
       </div>
       <div className="card-body">
         <div className="d-flex justify-content-between mb-3">
@@ -113,7 +126,7 @@ const Marque = () => {
               handleOpenModal('create');
             }}
           >
-            Ajouter une Marque
+            Ajouter une Possibilité
           </button>
         </div>
         {loading ? (
@@ -125,10 +138,10 @@ const Marque = () => {
         ) : (
           <div style={{ height: '300px', width: '100%' }}>
             <DataGrid
-              rows={marques}
+              rows={possibilites}
               columns={columns}
               pageSize={5}
-              getRowId={(row) => row.ID_marque}
+              getRowId={(row) => row.ID_possibilite}
               rowsPerPageOptions={[5]}
               disableSelectionOnClick
               className="bg-light"
@@ -142,18 +155,40 @@ const Marque = () => {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">{isEditMode ? 'Modifier une Marque' : 'Ajouter une Marque'}</h5>
+                <h5 className="modal-title">{isEditMode ? 'Modifier une Possibilité' : 'Ajouter une Possibilité'}</h5>
                 <button type="button" className="btn-close" onClick={handleCancel}></button>
               </div>
               <div className="modal-body">
                 <form onSubmit={handleAdd}>
                   <div className="mb-3">
-                    <label className="form-label">Nom de la Marque</label>
+                    <label className="form-label">Code</label>
                     <input
                       type="text"
                       className="form-control"
-                      name="marque"
-                      value={formData.marque}
+                      name="possibilite_code"
+                      value={formData.possibilite_code}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Marque</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="possibilite_marque"
+                      value={formData.possibilite_marque}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Modèle</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      name="possibilite_modele"
+                      value={formData.possibilite_modele}
                       onChange={handleChange}
                       required
                     />
@@ -175,4 +210,4 @@ const Marque = () => {
   );
 };
 
-export default Marque;
+export default Fiche;

@@ -31,27 +31,16 @@ const Materiel = () => {
   const [selectedId, setSelectedId] = useState(null); // ID du matériel sélectionné pour modification
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
-  const [marques, setMarques] = useState([]);
-  const [modeles, setModeles] = useState([]);
+  const [possibilites, setPossibilites] = useState([]);
 
-  const fetchMarques = async () => {
+  const fetchPossibilites = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/marque');
-      setMarques(response.data);
+      const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
+      setPossibilites(response.data); // Stocke toutes les possibilités
     } catch (error) {
-      console.error('Erreur lors de la récupération des marques:', error);
+      console.error('Erreur lors de la récupération des possibilités:', error);
     }
   };
-
-  const fetchModeles = async () => {
-    try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/modele');
-      setModeles(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des modèles:', error);
-    }
-  };
-
 
   const fetchMateriel = async () => {
     try {
@@ -96,10 +85,24 @@ const Materiel = () => {
     fetchCategories();
     fetchEtats();
     fetchFournisseurs();
-    fetchMarques();
-    fetchModeles();
+    fetchPossibilites();
   }, []);
 
+
+  // Lorsque le code est sélectionné, met automatiquement à jour la marque et le modèle
+  const handleCodeChange = (e) => {
+    const selectedCode = e.target.value;
+    const selectedPossibilite = possibilites.find(pos => pos.possibilite_code === selectedCode);
+
+    if (selectedPossibilite) {
+      setFormData({
+        ...formData,
+        code: selectedPossibilite.possibilite_code,
+        marque: selectedPossibilite.possibilite_marque,
+        modele: selectedPossibilite.possibilite_modele
+      });
+    }
+  };
 
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
@@ -127,6 +130,7 @@ const Materiel = () => {
       toast.success('Matériel ajouté avec succès !');
       setShowModal(false);
       fetchMateriel();
+      fetchPossibilites();
     } catch (error) {
       toast.error("Une erreur est survenue lors de l'ajout du matériel.");
     }
@@ -152,6 +156,7 @@ const Materiel = () => {
       toast.success('Matériel mis à jour avec succès !');
       setShowUpdateModal(false);
       fetchMateriel();
+      fetchPossibilites();
     } catch (error) {
       toast.error("Une erreur est survenue lors de la mise à jour du matériel.");
     }
@@ -161,7 +166,8 @@ const Materiel = () => {
       try {
         await axios.delete(`http://172.25.52.205:8000/materiel/${id}`);
         toast.success('Matériel supprimé avec succès !');
-        fetchMateriel();  // Mettre à jour la liste après suppression
+        fetchMateriel();
+        fetchPossibilites(); // Mettre à jour la liste après suppression
       } catch (error) {
         console.error("Erreur lors de la suppression du matériel:", error);
         toast.error("Une erreur est survenue lors de la suppression du matériel.");
@@ -300,8 +306,8 @@ const Materiel = () => {
 
   const columns = [
     { field: 'numero_inventaire', headerName: 'Numéro d\'Inventaire', width: 150 },
-    { field: 'marque', headerName: 'Marque', width: 120 },
     { field: 'code', headerName: 'code', width: 150 },
+    { field: 'marque', headerName: 'Marque', width: 120 },
     { field: 'modele', headerName: 'Modèle', width: 150 },
     { field: 'numero_serie', headerName: 'Numéro de Série', width: 150 },
     { field: 'type', headerName: 'Catégorie', width: 200 },
@@ -422,45 +428,42 @@ const Materiel = () => {
                   <h5 className='text-center'>Informations Générales</h5>
                   <div className="mb-3">
                     <label className="form-label">Code</label>
-                    <input
-                      type="text"
+                    <select
                       name="code"
                       value={formData.code}
-                      onChange={handleChange}
+                      onChange={handleCodeChange}
                       className="form-control"
                       required
-                    />
+                    >
+                      <option value="">Sélectionner un code</option>
+                      {possibilites.map((possibilite) => (
+                        <option key={possibilite.ID_possibilite} value={possibilite.possibilite_code}>
+                          {possibilite.possibilite_code}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+                  {/* Champ Marque - Automatiquement mis à jour */}
                   <div className="mb-3">
                     <label className="form-label">Marque</label>
-                    <select
+                    <input
+                      type="text"
                       name="marque"
                       value={formData.marque}
-                      onChange={handleChange}
                       className="form-control"
-                      required
-                    >
-                      <option value="">Sélectionner une marque</option>
-                      {marques.map((marque) => (
-                        <option key={marque.ID_marque} value={marque.marque}>{marque.marque}</option>
-                      ))}
-                    </select>
+                      readOnly
+                    />
                   </div>
-
+                  {/* Champ Modèle - Automatiquement mis à jour */}
                   <div className="mb-3">
                     <label className="form-label">Modèle</label>
-                    <select
+                    <input
+                      type="text"
                       name="modele"
                       value={formData.modele}
-                      onChange={handleChange}
                       className="form-control"
-                      required
-                    >
-                      <option value="">Sélectionner un modèle</option>
-                      {modeles.map((modele) => (
-                        <option key={modele.ID_modele} value={modele.modele}>{modele.modele}</option>
-                      ))}
-                    </select>
+                      readOnly
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
@@ -593,45 +596,41 @@ const Materiel = () => {
                   <h5 className='text-center'>Informations Générales</h5>
                   <div className="mb-3">
                     <label className="form-label">Code</label>
-                    <input
-                      type="text"
+                    <select
                       name="code"
                       value={formData.code}
-                      onChange={handleChange}
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label className="form-label">Marque</label>
-                    <select
-                      name="marque"
-                      value={formData.marque}
-                      onChange={handleChange}
+                      onChange={handleCodeChange}
                       className="form-control"
                       required
                     >
-                      <option value="">Sélectionner une marque</option>
-                      {marques.map((marque) => (
-                        <option key={marque.ID_marque} value={marque.marque}>{marque.marque}</option>
+                      <option value="">Sélectionner un code</option>
+                      {possibilites.map((possibilite) => (
+                        <option key={possibilite.ID_possibilite} value={possibilite.possibilite_code}>
+                          {possibilite.possibilite_code}
+                        </option>
                       ))}
                     </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Marque</label>
+                    <input
+                      type="text"
+                      name="marque"
+                      value={formData.marque}
+                      className="form-control"
+                      readOnly
+                    />
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label">Modèle</label>
-                    <select
+                    <input
+                      type="text"
                       name="modele"
                       value={formData.modele}
-                      onChange={handleChange}
                       className="form-control"
-                      required
-                    >
-                      <option value="">Sélectionner un modèle</option>
-                      {modeles.map((modele) => (
-                        <option key={modele.ID_modele} value={modele.modele}>{modele.modele}</option>
-                      ))}
-                    </select>
+                      readOnly
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
@@ -648,7 +647,7 @@ const Materiel = () => {
                     <label className="form-label">Numéro d' inventaire</label>
                     <input
                       type="text"
-                      name="numero_serie"
+                      name="numero_inventaire"
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
