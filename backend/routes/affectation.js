@@ -84,7 +84,10 @@ router.delete('/:id', (req, res) => {
 router.get('/', (req, res) => {
     const sqlGetAffectation = `
 SELECT a.ID_affectation, a.ID_materiel, a.ID_utilisateur, a.date_affectation, 
-       m.numero_inventaire, 
+       CASE 
+        WHEN m.numero_inventaire IS NULL OR m.numero_inventaire = '' THEN 'N/A' 
+        ELSE m.numero_inventaire 
+    END AS numero_inventaire, 
        CONCAT(m.marque, ' - ', m.modele) AS modele,
        CONCAT(u.nom, ' - ', s.Nom, ' - ', l.lieux) AS utilisateur_nom
 FROM affectation a
@@ -117,7 +120,10 @@ router.get('/historique', (req, res) => {
     const sqlGetHistorique = `
         SELECT h.ID_historique, h.ID_affectation, h.ID_materiel, h.ID_utilisateur, 
        h.date_affectation, h.date_suppression, 
-       m.numero_inventaire, 
+       CASE 
+        WHEN m.numero_inventaire IS NULL OR m.numero_inventaire = '' THEN 'N/A' 
+        ELSE m.numero_inventaire 
+    END AS numero_inventaire, 
        CONCAT(m.marque, ' - ', m.modele) AS modele,
        CONCAT(u.nom, ' - ', s.Nom, ' - ', l.lieux) AS utilisateur_nom
 FROM historique h
