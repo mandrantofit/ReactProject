@@ -33,6 +33,7 @@ const Materiel = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [possibilites, setPossibilites] = useState([]);
 
+  
   const fetchPossibilites = async () => {
     try {
       const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');

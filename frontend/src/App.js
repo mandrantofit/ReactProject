@@ -6,7 +6,7 @@ import Login from './pages/Login';
 import Materiel from './pages/Materiel';
 import Stock from './pages/Stock';
 import Affectation from './pages/Affectation';
-import Utilisateur from './pages/User';
+import Employee from './pages/Employee';
 import Aide from './pages/Aide'; // Importer la page Aide
 import NotFound from './pages/NotFound';
 import PrivateRoute from './routes/PrivateRoute';
@@ -26,7 +26,7 @@ function App() {
         <Route path="/materiel" element={<PrivateRoute><Materiel /></PrivateRoute>} />
         <Route path="/stock" element={<PrivateRoute><Stock /></PrivateRoute>} />
         <Route path="/affectation" element={<PrivateRoute><Affectation /></PrivateRoute>} />
-        <Route path="/utilisateur" element={<PrivateRoute><Utilisateur /></PrivateRoute>} />
+        <Route path="/employé" element={<PrivateRoute><Employee /></PrivateRoute>} />
         <Route path="/" element={<Login />} />
         <Route path="/admin" element={<AdminRoute><Admin /></AdminRoute>} />
         <Route path="/aide" element={<PrivateRoute><Aide /></PrivateRoute>} /> {/* Ajouter la route Aide */}

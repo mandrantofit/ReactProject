@@ -6,7 +6,7 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Utilisateur = () => {
+const Employee = () => {
     const [users, setUsers] = useState([]);
     const [services, setServices] = useState([]);
     const [lieux, setLieux] = useState([]); // Ajouter pour les lieux
@@ -162,12 +162,12 @@ const Utilisateur = () => {
         <div className="container mt-4">
             <div className="card shadow-sm">
                 <div className="card-header bg-dark text-white">
-                    <h4 className="mb-0">Gestion des Utilisateurs</h4>
+                    <h4 className="mb-0">Gestion des Employé</h4>
                 </div>
                 <div className="card-body">
                     <div className="d-flex justify-content-between mb-3">
                         <button className="btn btn-success" onClick={() => setShowModal(true)}>
-                            Ajouter Utilisateur
+                            Ajouter un Employé
                         </button>
                     </div>
                     {loading ? (
@@ -335,4 +335,4 @@ const Utilisateur = () => {
     );
 };
 
-export default Utilisateur;
+export default Employee;
