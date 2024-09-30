@@ -117,21 +117,23 @@ const Materiel = () => {
 
   const handleNumeroSerieChange = (e) => {
     const selectedNumeroSerie = e.target.value;
-    const selectedCommande = commandes.find(cmd => cmd.numero_serie === selectedNumeroSerie);
+    const selectedCommande = commandes.find(commande => commande.numero_serie === selectedNumeroSerie);
 
     if (selectedCommande) {
-      setFormData(prev => ({
-        ...prev,
+      setFormData({
+        ...formData,
+        numero_serie: selectedNumeroSerie,
         bon_de_commande: selectedCommande.bon_de_commande,
-        bon_de_livraison: selectedCommande.bon_de_livraison,
-      }));
+        bon_de_livraison: selectedCommande.bon_de_livraison
+      });
     } else {
-      // Si aucune commande n'est trouvée, réinitialiser les bons
-      setFormData(prev => ({
-        ...prev,
+      // Si aucune commande n'est trouvée pour ce numéro de série, vide les champs Bon de Commande et Bon de Livraison
+      setFormData({
+        ...formData,
+        numero_serie: selectedNumeroSerie,
         bon_de_commande: '',
-        bon_de_livraison: '',
-      }));
+        bon_de_livraison: ''
+      });
     }
   };
 
@@ -579,8 +581,8 @@ const Materiel = () => {
                       name="numero_serie"
                       value={formData.numero_serie}
                       onChange={(e) => {
-                        handleNumeroSerieChange(e);
-                        handleChange(e);
+                        handleNumeroSerieChange(e); // Automatisation des bons
+                        handleChange(e); // Mise à jour du formulaire
                       }}
                       className="form-control"
                       required
@@ -606,6 +608,7 @@ const Materiel = () => {
                       className="form-control"
                     />
                   </div>
+
 
                   <button type="submit" className="btn btn-primary">Ajouter</button>
                   <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>Annuler</button>
@@ -751,8 +754,8 @@ const Materiel = () => {
                       name="numero_serie"
                       value={formData.numero_serie}
                       onChange={(e) => {
-                        handleNumeroSerieChange(e);
-                        handleChange(e);
+                        handleNumeroSerieChange(e); // Automatisation des bons
+                        handleChange(e); // Mise à jour du formulaire
                       }}
                       className="form-control"
                       required
@@ -778,6 +781,7 @@ const Materiel = () => {
                       className="form-control"
                     />
                   </div>
+
 
                   <button type="submit" className="btn btn-primary">Mettre à jour</button>
                   <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>Annuler</button>
