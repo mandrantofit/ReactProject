@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +16,7 @@ const Login = () => {
     try {
       const response = await axios.post('http://172.25.52.205:8000/login', { email, password });
       const { token, email: responseEmail, type } = response.data;
-      
+
       // Stocker les données dans le localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('email', responseEmail);
@@ -56,16 +56,17 @@ const Login = () => {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder=""
+                  placeholder="Entrez votre mot de passe"
                   required
+                  style={{ paddingRight: '2.5rem' }} // Ajoute de l'espace pour l'icône
                 />
-                <button
-                  type="button"
-                  className="btn btn-outline-secondary"
+                <div
+                  className="input-group-append"
+                  style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '35%' }} // Positionnement de l'icône
                   onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Bascule la visibilité
                 >
                   {isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Afficher l'icône correspondante */}
-                </button>
+                </div>
               </div>
             </div>
 
