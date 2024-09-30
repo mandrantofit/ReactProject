@@ -715,7 +715,7 @@ const Materiel = () => {
                     <input
                       type="text"
                       name="numero_serie"
-                      value={formData.numero_serie}//numero_inventaire
+                      value={formData.numero_serie}
                       onChange={handleChange}
                       className="form-control"
                       required
