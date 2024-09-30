@@ -174,7 +174,6 @@ const Commande = () => {
                       value={formData.numero_serie}
                       onChange={handleChange}
                       required
-                      placeholder="Entrez le numéro de série"
                     />
                   </div>
                   <div className="mb-3">
@@ -186,7 +185,6 @@ const Commande = () => {
                       value={formData.bon_de_commande}
                       onChange={handleChange}
                       required
-                      placeholder="Entrez le bon de commande"
                     />
                   </div>
                   <div className="mb-3">
@@ -198,7 +196,6 @@ const Commande = () => {
                       value={formData.bon_de_livraison}
                       onChange={handleChange}
                       required
-                      placeholder="Entrez le bon de livraison"
                     />
                   </div>
                   <button type="submit" className="btn btn-primary me-2">
