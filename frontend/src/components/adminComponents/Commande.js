@@ -18,14 +18,6 @@ const Commande = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  // Liste des numéros de série disponibles (exemples)
-  const materiels = [
-    { numero_serie: 'SERIE001' },
-    { numero_serie: 'SERIE002' },
-    { numero_serie: 'SERIE003' },
-    // Ajoutez d'autres numéros de série si nécessaire
-  ];
-
   useEffect(() => {
     fetchCommandes();
   }, []);
@@ -175,20 +167,15 @@ const Commande = () => {
                 <form onSubmit={handleAdd}>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <select
+                    <input
+                      type="text"
                       className="form-control"
                       name="numero_serie"
                       value={formData.numero_serie}
                       onChange={handleChange}
                       required
-                    >
-                      <option value="">Sélectionnez un numéro de série</option>
-                      {materiels.map((materiel) => (
-                        <option key={materiel.numero_serie} value={materiel.numero_serie}>
-                          {materiel.numero_serie}
-                        </option>
-                      ))}
-                    </select>
+                      placeholder="Entrez le numéro de série"
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
@@ -199,6 +186,7 @@ const Commande = () => {
                       value={formData.bon_de_commande}
                       onChange={handleChange}
                       required
+                      placeholder="Entrez le bon de commande"
                     />
                   </div>
                   <div className="mb-3">
@@ -210,6 +198,7 @@ const Commande = () => {
                       value={formData.bon_de_livraison}
                       onChange={handleChange}
                       required
+                      placeholder="Entrez le bon de livraison"
                     />
                   </div>
                   <button type="submit" className="btn btn-primary me-2">
