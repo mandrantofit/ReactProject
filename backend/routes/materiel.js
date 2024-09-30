@@ -36,8 +36,8 @@ router.post('/', (req, res) => {
 
 router.put('/:id', (req, res) => {
     const { id } = req.params;
-    const { code , modele , marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison } = req.body;
-    if (!id || !code|| !modele || !marque || !numero_serie || !ID_categorie || !ID_etat || !ID_fournisseur) {
+    const { code, modele, marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison } = req.body;
+    if (!id || !code || !modele || !marque || !numero_serie || !ID_categorie || !ID_etat || !ID_fournisseur) {
         return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
     }
     const sqlCheckNumeroSerie = 'SELECT * FROM materiel WHERE numero_serie = ? AND ID_materiel != ?';
@@ -93,23 +93,26 @@ router.delete('/:id', (req, res) => {
 router.get('/', (req, res) => {
     const sqlGetMateriel = `
       SELECT 
-        materiel.ID_materiel,
-        materiel.code,
-        materiel.modele,
-        materiel.marque,
-        materiel.numero_serie,
-        materiel.numero_inventaire,
-        categorie.type AS type,
-        etat.description AS etat,
-        fournisseur.nom AS fournisseur,
-        materiel.bon_de_commande,
-        materiel.config,
-        materiel.bon_de_livraison,
-        materiel.attribution
-      FROM materiel
-      LEFT JOIN categorie ON materiel.ID_categorie = categorie.ID_categorie
-      LEFT JOIN etat ON materiel.ID_etat = etat.ID_etat
-      LEFT JOIN fournisseur ON materiel.ID_fournisseur = fournisseur.ID_fournisseur
+    materiel.ID_materiel,
+    materiel.code,
+    materiel.modele,
+    materiel.marque,
+    materiel.numero_serie,
+    CASE 
+        WHEN materiel.numero_inventaire IS NULL OR materiel.numero_inventaire = '' THEN 'NULL' 
+        ELSE materiel.numero_inventaire 
+    END AS numero_inventaire,
+    categorie.type AS type,
+    etat.description AS etat,
+    fournisseur.nom AS fournisseur,
+    materiel.bon_de_commande,
+    materiel.config,
+    materiel.bon_de_livraison,
+    materiel.attribution
+FROM materiel
+LEFT JOIN categorie ON materiel.ID_categorie = categorie.ID_categorie
+LEFT JOIN etat ON materiel.ID_etat = etat.ID_etat
+LEFT JOIN fournisseur ON materiel.ID_fournisseur = fournisseur.ID_fournisseur;
     `;
 
     db.query(sqlGetMateriel, (error, results) => {
