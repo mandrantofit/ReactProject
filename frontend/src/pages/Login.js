@@ -56,13 +56,12 @@ const Login = () => {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Entrez votre mot de passe"
                   required
                   style={{ paddingRight: '2.5rem' }} // Ajoute de l'espace pour l'icône
                 />
                 <div
                   className="input-group-append"
-                  style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '35%' }} // Positionnement de l'icône
+                  style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '15%' }} // Positionnement de l'icône
                   onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Bascule la visibilité
                 >
                   {isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Afficher l'icône correspondante */}
