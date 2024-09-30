@@ -122,7 +122,9 @@ const Materiel = () => {
 
     if (selectedCommande) {
       console.log('Commande correspondante:', selectedCommande);
-      setFormData(prevFormData => ({
+
+      // Mise à jour de l'état avec une fonction callback pour s'assurer que les données sont correctement prises en compte
+      setFormData((prevFormData) => ({
         ...prevFormData,
         numero_serie: selectedCommande.numero_serie,
         bon_de_commande: selectedCommande.bon_de_commande || '',
@@ -130,6 +132,7 @@ const Materiel = () => {
       }));
     }
   };
+
 
 
 
