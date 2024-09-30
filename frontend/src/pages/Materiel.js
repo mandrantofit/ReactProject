@@ -484,7 +484,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-                      required
+                      
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -651,7 +651,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-                      required
+                      
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
