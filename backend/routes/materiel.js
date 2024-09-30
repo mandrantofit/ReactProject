@@ -241,5 +241,62 @@ router.delete('/possibilite/:id', (req, res) => {
     });
 });
 
+// Route pour récupérer toutes les commandes
+router.get('/commandes', (req, res) => {
+    const sqlGet = 'SELECT * FROM commande';
+    db.query(sqlGet, (error, results) => {
+        if (error) {
+            console.error('Erreur lors de la récupération des commandes :', error);
+            return res.status(500).json({ error: 'Erreur serveur' });
+        }
+        res.status(200).json(results);
+    });
+});
+
+// Route pour créer une nouvelle commande
+router.post('/commandes', (req, res) => {
+    const { numero_serie, bon_de_commande, bon_de_livraison } = req.body;
+    const sqlCreate = 'INSERT INTO commande (numero_serie, bon_de_commande, bon_de_livraison) VALUES (?, ?, ?)';
+    db.query(sqlCreate, [numero_serie, bon_de_commande, bon_de_livraison], (error, results) => {
+        if (error) {
+            console.error('Erreur lors de la création de la commande :', error);
+            return res.status(500).json({ error: 'Erreur serveur' });
+        }
+        res.status(201).json({ message: 'Commande créée avec succès', id: results.insertId });
+    });
+});
+
+// Route pour mettre à jour une commande
+router.put('/commandes/:id', (req, res) => {
+    const { id } = req.params;
+    const { numero_serie, bon_de_commande, bon_de_livraison } = req.body;
+    const sqlUpdate = 'UPDATE commande SET numero_serie = ?, bon_de_commande = ?, bon_de_livraison = ? WHERE ID_commande = ?';
+    db.query(sqlUpdate, [numero_serie, bon_de_commande, bon_de_livraison, id], (error, results) => {
+        if (error) {
+            console.error('Erreur lors de la mise à jour de la commande :', error);
+            return res.status(500).json({ error: 'Erreur serveur' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Commande non trouvée' });
+        }
+        res.status(200).json({ message: 'Commande mise à jour avec succès' });
+    });
+});
+
+// Route pour supprimer une commande
+router.delete('/commandes/:id', (req, res) => {
+    const { id } = req.params;
+    const sqlDelete = 'DELETE FROM commande WHERE ID_commande = ?';
+    db.query(sqlDelete, [id], (error, results) => {
+        if (error) {
+            console.error('Erreur lors de la suppression de la commande :', error);
+            return res.status(500).json({ error: 'Erreur serveur' });
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).json({ error: 'Commande non trouvée' });
+        }
+        res.status(200).json({ message: 'Commande supprimée avec succès' });
+    });
+});
 
 module.exports = router;

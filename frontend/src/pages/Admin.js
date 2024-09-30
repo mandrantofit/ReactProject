@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav, Tab } from 'react-bootstrap';
 import Utilisateurs from '../components/adminComponents/Utilisateurs';
 import Fiche from '../components/adminComponents/Fiche';
+import Commande from '../components/adminComponents/Commande';
 import Categorie from '../components/adminComponents/Categorie';
 import Fournisseur from '../components/adminComponents/Fournisseur';
 import Service from '../components/adminComponents/Service';
@@ -20,6 +21,11 @@ const Admin = () => {
           <Nav.Item>
             <Nav.Link eventKey="fiche" className="mx-2 rounded-pill shadow-sm bg-dark text-light">
             Fiche
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link eventKey="commande" className="mx-2 rounded-pill shadow-sm bg-dark text-light">
+            Commande
             </Nav.Link>
           </Nav.Item>
           <Nav.Item>
@@ -50,6 +56,9 @@ const Admin = () => {
           </Tab.Pane>
           <Tab.Pane eventKey="fiche">
             <Fiche />
+          </Tab.Pane>
+          <Tab.Pane eventKey="commande">
+            <Commande />
           </Tab.Pane>
           <Tab.Pane eventKey="categorie">
             <Categorie />
