@@ -587,13 +587,14 @@ const Materiel = () => {
                       required
                     >
                       <option value="">Sélectionner un numéro de série</option>
-                      {numerosSerie.map((numero) => (
-                        <option key={numero} value={numero}>
-                          {numero}
+                      {commandes.map((commande) => (
+                        <option key={commande.numero_serie} value={commande.numero_serie}>
+                          {commande.numero_serie}
                         </option>
                       ))}
                     </select>
                   </div>
+
 
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
@@ -774,6 +775,7 @@ const Materiel = () => {
                       ))}
                     </select>
                   </div>
+
 
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
