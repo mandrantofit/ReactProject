@@ -606,22 +606,21 @@ const Materiel = () => {
                       type="text"
                       name="bon_de_commande"
                       value={formData.bon_de_commande}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Livraison</label>
                     <input
                       type="text"
                       name="bon_de_livraison"
                       value={formData.bon_de_livraison}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
-
-
 
                   <button type="submit" className="btn btn-primary">Ajouter</button>
                   <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>Annuler</button>
@@ -786,23 +785,21 @@ const Materiel = () => {
                       type="text"
                       name="bon_de_commande"
                       value={formData.bon_de_commande}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Livraison</label>
                     <input
                       type="text"
                       name="bon_de_livraison"
                       value={formData.bon_de_livraison}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly // Le champ devient en lecture seule
                     />
                   </div>
-
-
-
                   <button type="submit" className="btn btn-primary">Mettre à jour</button>
                   <button type="button" className="btn btn-secondary ms-2" onClick={handleCancel}>Annuler</button>
                 </form>
