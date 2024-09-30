@@ -91,7 +91,7 @@ const Commande = () => {
   };
 
   const columns = [
-    { field: 'ID_commande', headerName: 'ID', width: 90 },
+    //{ field: 'ID_commande', headerName: 'ID', width: 90 },
     { field: 'numero_serie', headerName: 'Numéro de Série', width: 200 },
     { field: 'bon_de_commande', headerName: 'Bon de Commande', width: 200 },
     { field: 'bon_de_livraison', headerName: 'Bon de Livraison', width: 200 },

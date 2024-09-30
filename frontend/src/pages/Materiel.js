@@ -10,6 +10,7 @@ import * as XLSX from 'xlsx';
 
 const Materiel = () => {
   const [materiels, setMateriels] = useState([]);
+  const [commandes, setCommandes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [etats, setEtats] = useState([]);
   const [fournisseurs, setFournisseurs] = useState([]);
@@ -32,6 +33,15 @@ const Materiel = () => {
   const [showModal, setShowModal] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [possibilites, setPossibilites] = useState([]);
+
+  const fetchCommandes = async () => {
+    try {
+      const response = await axios.get('http://172.25.52.205:8000/materiel/commandes');
+      setCommandes(response.data);
+    } catch (error) {
+      console.error('Erreur lors de la récupération des commandes:', error);
+    }
+  };
 
   const fetchPossibilites = async () => {
     try {
@@ -86,6 +96,7 @@ const Materiel = () => {
     fetchEtats();
     fetchFournisseurs();
     fetchPossibilites();
+    fetchCommandes();
   }, []);
 
 
@@ -101,6 +112,26 @@ const Materiel = () => {
         marque: selectedPossibilite.possibilite_marque,
         modele: selectedPossibilite.possibilite_modele
       });
+    }
+  };
+
+  const handleNumeroSerieChange = (e) => {
+    const selectedNumeroSerie = e.target.value;
+    const selectedCommande = commandes.find(cmd => cmd.numero_serie === selectedNumeroSerie);
+
+    if (selectedCommande) {
+      setFormData(prev => ({
+        ...prev,
+        bon_de_commande: selectedCommande.bon_de_commande,
+        bon_de_livraison: selectedCommande.bon_de_livraison,
+      }));
+    } else {
+      // Si aucune commande n'est trouvée, réinitialiser les bons
+      setFormData(prev => ({
+        ...prev,
+        bon_de_commande: '',
+        bon_de_livraison: '',
+      }));
     }
   };
 
@@ -466,17 +497,6 @@ const Materiel = () => {
                     />
                   </div>
                   <div className="mb-3">
-                    <label className="form-label">Numéro de Série</label>
-                    <input
-                      type="text"
-                      name="numero_serie"
-                      value={formData.numero_serie}
-                      onChange={handleChange}
-                      className="form-control"
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
                     <label className="form-label">Numéro d'inventaire</label>
                     <input
                       type="text"
@@ -484,7 +504,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-                      
+
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -551,6 +571,20 @@ const Materiel = () => {
                         </option>
                       ))}
                     </select>
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Numéro de Série</label>
+                    <input
+                      type="text"
+                      name="numero_serie"
+                      value={formData.numero_serie}
+                      onChange={(e) => {
+                        handleNumeroSerieChange(e);
+                        handleChange(e);
+                      }}
+                      className="form-control"
+                      required
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
@@ -632,17 +666,7 @@ const Materiel = () => {
                       readOnly
                     />
                   </div>
-                  <div className="mb-3">
-                    <label className="form-label">Numéro de Série</label>
-                    <input
-                      type="text"
-                      name="numero_serie"
-                      value={formData.numero_serie}//numero_inventaire
-                      onChange={handleChange}
-                      className="form-control"
-                      required
-                    />
-                  </div>
+
                   <div className="mb-3">
                     <label className="form-label">Numéro d' inventaire</label>
                     <input
@@ -651,7 +675,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-                      
+
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -719,6 +743,20 @@ const Materiel = () => {
                       ))}
                     </select>
 
+                  </div>
+                  <div className="mb-3">
+                    <label className="form-label">Numéro de Série</label>
+                    <input
+                      type="text"
+                      name="numero_serie"
+                      value={formData.numero_serie}
+                      onChange={(e) => {
+                        handleNumeroSerieChange(e);
+                        handleChange(e);
+                      }}
+                      className="form-control"
+                      required
+                    />
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
