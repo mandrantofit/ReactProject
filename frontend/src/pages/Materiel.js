@@ -97,7 +97,8 @@ const Materiel = () => {
     fetchFournisseurs();
     fetchPossibilites();
     fetchCommandes();
-  }, []);
+    console.log("FormData mis à jour:", formData);
+  }, [formData]);
 
 
   // Lorsque le code est sélectionné, met automatiquement à jour la marque et le modèle
@@ -119,25 +120,14 @@ const Materiel = () => {
     const selectedNumeroSerie = e.target.value;
     const selectedCommande = commandes.find(commande => commande.numero_serie === selectedNumeroSerie);
 
-    // Log pour voir la valeur sélectionnée et la commande correspondante
-    console.log('Numéro de Série sélectionné:', selectedNumeroSerie);
-    console.log('Commande correspondante:', selectedCommande);
-
     if (selectedCommande) {
-      setFormData({
-        ...formData,
+      console.log('Commande correspondante:', selectedCommande);
+      setFormData(prevFormData => ({
+        ...prevFormData,
         numero_serie: selectedCommande.numero_serie,
         bon_de_commande: selectedCommande.bon_de_commande || '',
         bon_de_livraison: selectedCommande.bon_de_livraison || ''
-      });
-
-      // Log pour vérifier les valeurs mises à jour dans formData
-      console.log('FormData mis à jour:', {
-        ...formData,
-        numero_serie: selectedCommande.numero_serie,
-        bon_de_commande: selectedCommande.bon_de_commande || '',
-        bon_de_livraison: selectedCommande.bon_de_livraison || ''
-      });
+      }));
     }
   };
 
