@@ -124,21 +124,22 @@ const Materiel = () => {
     console.log('Commande correspondante:', selectedCommande);
 
     if (selectedCommande) {
-      // Mettre à jour l'état avec les données de la commande
-      setFormData(prevFormData => {
-        const updatedFormData = {
-          ...prevFormData,
-          numero_serie: selectedCommande.numero_serie,
-          bon_de_commande: selectedCommande.bon_de_commande || '',
-          bon_de_livraison: selectedCommande.bon_de_livraison || ''
-        };
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        numero_serie: selectedCommande.numero_serie,
+        bon_de_commande: selectedCommande.bon_de_commande || '',
+        bon_de_livraison: selectedCommande.bon_de_livraison || ''
+      }));
 
-        console.log('FormData mis à jour:', updatedFormData);
-        return updatedFormData;
+      // Log pour vérifier la mise à jour
+      console.log('FormData mis à jour après sélection:', {
+        ...formData,
+        numero_serie: selectedCommande.numero_serie,
+        bon_de_commande: selectedCommande.bon_de_commande || '',
+        bon_de_livraison: selectedCommande.bon_de_livraison || ''
       });
     }
   };
-  
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
     setFormData({ ...formData, [e.target.name]: e.target.value });
