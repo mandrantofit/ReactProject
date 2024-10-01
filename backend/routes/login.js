@@ -7,9 +7,8 @@ const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',
-    port: 587, // Port pour TLS
-    secure: false, // Utilisez false pour TLS
-    //service: 'gmail', // Utilisez votre service de messagerie
+    port: 587, 
+    secure: false, 
     auth: {
         user: 'mandrantofit@gmail.com', // Remplacez par votre email
         pass: 'fknq zcxb piyi cdlx' // Remplacez par votre mot de passe
@@ -19,6 +18,24 @@ const transporter = nodemailer.createTransport({
 const db = require('../model/database');
 //urre fzde uqvl ovsd  mot de passe d application
 const JWT_SECRET = 'adminplus';
+
+router.post('/test-email', (req, res) => {
+    const testMailOptions = {
+        from: 'mandrantofit@gmail.com',
+        to: req.body.to, // Utiliser l'adresse e-mail fournie dans la requête
+        subject: 'Test Email',
+        text: 'This is a test email to check email sending functionality.'
+    };
+
+    transporter.sendMail(testMailOptions, (error, info) => {
+        if (error) {
+            console.error('Error sending test email:', error);
+            return res.status(500).json({ success: false, error: error.message || 'Failed to send test email' });
+        }
+        console.log('Test email sent:', info.response);
+        return res.json({ success: true, message: 'Test email sent successfully', response: info.response });
+    });
+});
 
 router.post('/', (req, res) => {
     const { email, password } = req.body;
