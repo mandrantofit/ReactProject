@@ -6,7 +6,10 @@ const speakeasy = require('speakeasy'); // Importer speakeasy
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail', // Utilisez votre service de messagerie
+    host: 'smtp.gmail.com',
+    port: 587, // Port pour TLS
+    secure: false, // Utilisez false pour TLS
+    //service: 'gmail', // Utilisez votre service de messagerie
     auth: {
         user: 'mandrantofit@gmail.com', // Remplacez par votre email
         pass: 'fknq zcxb piyi cdlx' // Remplacez par votre mot de passe
