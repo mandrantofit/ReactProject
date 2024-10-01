@@ -37,7 +37,7 @@ router.post('/', (req, res) => {
 
             // Envoyer le code MFA par email
             const mailOptions = {
-                from: 'your-email@gmail.com',
+                from: 'mandrantofit@gmail.com',
                 to: email,
                 subject: 'Votre code d\'authentification MFA',
                 text: `Votre code d'authentification est : ${mfaToken}`
