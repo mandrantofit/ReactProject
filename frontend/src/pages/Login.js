@@ -7,53 +7,14 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [mfaCode, setMfaCode] = useState(''); // Nouveau champ pour le code MFA
   const [error, setError] = useState('');
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const [isMfaRequired, setIsMfaRequired] = useState(false); // Pour contrôler l'étape du MFA
   const navigate = useNavigate();
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  // Fonction pour soumettre l'email et le mot de passe
-  const handleSubmitLogin = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Envoyer l'email et le mot de passe pour l'authentification initiale
       const response = await axios.post('http://172.25.52.205:8000/login', { email, password });
-
-      if (response.data.mfaRequired) {
-        setIsMfaRequired(true);
-        setError('');
-      } else {
-        const { token, email: responseEmail, type } = response.data;
-        localStorage.setItem('token', token);
-        localStorage.setItem('email', responseEmail);
-        localStorage.setItem('type', type);
-        navigate('/materiel');
-      }
-    } catch (err) {
-      if (err.response) {
-        // Le serveur a renvoyé une réponse avec un code de statut qui sort de la plage 2xx
-        console.error('Response error:', err.response);
-        setError(err.response.data.message || 'Invalid credentials');
-      } else if (err.request) {
-        // La requête a été envoyée mais aucune réponse n'a été reçue
-        console.error('No response received:', err.request);
-        setError('No response from server. Please try again later.');
-      } else {
-        // Autre type d'erreur
-        console.error('Error:', err.message);
-        setError('An error occurred. Please try again.');
-      }
-    }
-  };
-
-
-  // Fonction pour soumettre le code MFA
-  const handleSubmitMfa = async (e) => {
-    e.preventDefault();
-    try {
-      // Envoyer l'email et le code MFA pour vérification
-      const response = await axios.post('http://172.25.52.205:8000/login/verify-mfa', { email, mfaCode });
       const { token, email: responseEmail, type } = response.data;
 
       // Stocker les données dans le localStorage
@@ -63,7 +24,7 @@ const Login = () => {
 
       navigate('/materiel'); // Rediriger vers la page "Materiel"
     } catch (err) {
-      setError('Invalid MFA code');
+      setError('Invalid credentials');
     }
   };
 
@@ -72,70 +33,46 @@ const Login = () => {
       <div className="card shadow-lg" style={{ width: '100%', maxWidth: '400px' }}>
         <div className="card-body">
           <h4 className="card-title text-center mb-4">Authentifiez-vous</h4>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group mb-3">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder=""
+                required
+              />
+            </div>
 
-          {/* Afficher le formulaire pour entrer l'email et le mot de passe */}
-          {!isMfaRequired ? (
-            <form onSubmit={handleSubmitLogin}>
-              <div className="form-group mb-3">
-                <label htmlFor="email">Email</label>
+            <div className="form-group mb-3">
+              <label htmlFor="password">Mot de passe</label>
+              <div className="input-group">
                 <input
-                  type="email"
+                  type={isPasswordVisible ? 'text' : 'password'} // Modifier le type en fonction de la visibilité
                   className="form-control"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder=""
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
+                  style={{ paddingRight: '2.5rem' }} // Ajoute de l'espace pour l'icône
                 />
-              </div>
-
-              <div className="form-group mb-3">
-                <label htmlFor="password">Mot de passe</label>
-                <div className="input-group">
-                  <input
-                    type={isPasswordVisible ? 'text' : 'password'}
-                    className="form-control"
-                    id="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                    style={{ paddingRight: '2.5rem' }}
-                  />
-                  <div
-                    className="input-group-append"
-                    style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '15%' }}
-                    onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                  >
-                    {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
-                  </div>
+                <div
+                  className="input-group-append"
+                  style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '15%' }} // Positionnement de l'icône
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Bascule la visibilité
+                >
+                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Afficher l'icône correspondante */}
                 </div>
               </div>
+            </div>
 
-              {error && <div className="alert alert-danger">{error}</div>}
+            {error && <div className="alert alert-danger">{error}</div>}
 
-              <button type="submit" className="btn btn-primary w-100">Suivant</button>
-            </form>
-          ) : (
-            // Afficher le formulaire pour entrer le code MFA
-            <form onSubmit={handleSubmitMfa}>
-              <div className="form-group mb-3">
-                <label htmlFor="mfaCode">Code de vérification</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="mfaCode"
-                  value={mfaCode}
-                  onChange={(e) => setMfaCode(e.target.value)}
-                  placeholder="Entrez le code envoyé par e-mail"
-                  required
-                />
-              </div>
-
-              {error && <div className="alert alert-danger">{error}</div>}
-
-              <button type="submit" className="btn btn-primary w-100">Vérifier</button>
-            </form>
-          )}
+            <button type="submit" className="btn btn-primary w-100">Login</button>
+          </form>
         </div>
       </div>
     </div>
