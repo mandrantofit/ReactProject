@@ -47,15 +47,20 @@ const Materiel = () => {
   const fetchPossibilites = async () => {
     try {
       const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
-      const donneesTriees = response.data.sort((a, b) => {
-        // Supposons que 'a' et 'b' sont des objets avec une propriété 'nom' à trier
-        return a.nom.localeCompare(b.nom);
+
+      // Trie les possibilités par possibilite_code
+      const sortedPossibilites = response.data.sort((a, b) => {
+        if (a.possibilite_code < b.possibilite_code) return -1;
+        if (a.possibilite_code > b.possibilite_code) return 1;
+        return 0;
       });
-      setPossibilites(donneesTriees); // Stocke les données triées
+
+      setPossibilites(sortedPossibilites); // Stocke les possibilités triées
     } catch (error) {
       console.error('Erreur lors de la récupération des possibilités:', error);
     }
   };
+
 
   const fetchMateriel = async () => {
     try {
