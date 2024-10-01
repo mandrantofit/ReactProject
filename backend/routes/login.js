@@ -9,7 +9,7 @@ const transporter = nodemailer.createTransport({
     service: 'gmail', // Utilisez votre service de messagerie
     auth: {
         user: 'mandrantofit@gmail.com', // Remplacez par votre email
-        pass: 'urre fzde uqvl ovsd' // Remplacez par votre mot de passe
+        pass: 'fknq zcxb piyi cdlx' // Remplacez par votre mot de passe
     }
 });
 
@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
     db.query('SELECT * FROM log_user WHERE email = ?', [email], (error, results) => {
         if (error) return res.status(500).json({ error: 'Database error' });
         if (results.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
-        
+
         const user = results[0];
         bcrypt.compare(password, user.password_hash, (err, isMatch) => {
             if (err) return res.status(500).json({ error: 'Server error' });
