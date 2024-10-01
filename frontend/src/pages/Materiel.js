@@ -33,7 +33,17 @@ const Materiel = () => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [possibilites, setPossibilites] = useState([]);
 
-  
+  const [commandes, setCommandes] = useState([]);
+
+  const fetchCommandes = async () => {
+    try {
+      const response = await axios.get('http://172.25.52.205:8000/materiel/commandes');
+      setCommandes(response.data);  // Stocker les commandes
+    } catch (error) {
+      console.error('Erreur lors de la récupération des commandes:', error);
+    }
+  };
+
   const fetchPossibilites = async () => {
     try {
       const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
@@ -87,6 +97,7 @@ const Materiel = () => {
     fetchEtats();
     fetchFournisseurs();
     fetchPossibilites();
+    fetchCommandes();
   }, []);
 
 
@@ -104,6 +115,21 @@ const Materiel = () => {
       });
     }
   };
+
+  const handleNumeroSerieChange = (e) => {
+    const selectedNumeroSerie = e.target.value;
+    const selectedCommande = commandes.find(commande => commande.numero_serie === selectedNumeroSerie);
+  
+    if (selectedCommande) {
+      setFormData({
+        ...formData,
+        numero_serie: selectedCommande.numero_serie,
+        bon_de_commande: selectedCommande.bon_de_commande,
+        bon_de_livraison: selectedCommande.bon_de_livraison
+      });
+    }
+  };
+  
 
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
@@ -474,7 +500,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-                      
+
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -544,33 +570,41 @@ const Materiel = () => {
                   </div>
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <input
-                      type="text"
+                    <select
                       name="numero_serie"
                       value={formData.numero_serie}
-                      onChange={handleChange}
-                      className="form-control"
+                      onChange={handleNumeroSerieChange}
+                      className="form-select"
                       required
-                    />
+                    >
+                      <option value="">Sélectionner un numéro de série</option>
+                      {commandes.map((commande) => (
+                        <option key={commande.ID_commande} value={commande.numero_serie}>
+                          {commande.numero_serie}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
                     <input
                       type="text"
                       name="bon_de_commande"
                       value={formData.bon_de_commande}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly
                     />
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Livraison</label>
                     <input
                       type="text"
                       name="bon_de_livraison"
                       value={formData.bon_de_livraison}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly
                     />
                   </div>
 
@@ -633,7 +667,7 @@ const Materiel = () => {
                       readOnly
                     />
                   </div>
-                  
+
                   <div className="mb-3">
                     <label className="form-label">Numéro d' inventaire</label>
                     <input
@@ -642,7 +676,7 @@ const Materiel = () => {
                       value={formData.numero_inventaire}
                       onChange={handleChange}
                       className="form-control"
-                      
+
                     />
                   </div>
                   {/* Formulaire pour Détails de la Configuration */}
@@ -711,35 +745,44 @@ const Materiel = () => {
                     </select>
 
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Numéro de Série</label>
-                    <input
-                      type="text"
+                    <select
                       name="numero_serie"
                       value={formData.numero_serie}
-                      onChange={handleChange}
-                      className="form-control"
+                      onChange={handleNumeroSerieChange}
+                      className="form-select"
                       required
-                    />
+                    >
+                      <option value="">Sélectionner un numéro de série</option>
+                      {commandes.map((commande) => (
+                        <option key={commande.ID_commande} value={commande.numero_serie}>
+                          {commande.numero_serie}
+                        </option>
+                      ))}
+                    </select>
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Commande</label>
                     <input
                       type="text"
                       name="bon_de_commande"
                       value={formData.bon_de_commande}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly
                     />
                   </div>
+
                   <div className="mb-3">
                     <label className="form-label">Bon de Livraison</label>
                     <input
                       type="text"
                       name="bon_de_livraison"
                       value={formData.bon_de_livraison}
-                      onChange={handleChange}
                       className="form-control"
+                      readOnly
                     />
                   </div>
 
