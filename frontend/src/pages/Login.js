@@ -19,12 +19,33 @@ const Login = () => {
     try {
       // Envoyer l'email et le mot de passe pour l'authentification initiale
       const response = await axios.post('http://172.25.52.205:8000/login', { email, password });
-      setIsMfaRequired(true); // Passer à la deuxième étape pour entrer le code MFA
-      setError(''); // Réinitialiser l'erreur
+
+      // Vérifier si le MFA est requis en fonction de la réponse du backend
+      if (response.data.mfaRequired) {
+        setIsMfaRequired(true); // Passer à la deuxième étape pour entrer le code MFA
+        setError(''); // Réinitialiser l'erreur
+      } else {
+        // Si le MFA n'est pas requis, connecter l'utilisateur immédiatement
+        const { token, email: responseEmail, type } = response.data;
+
+        // Stocker les données dans le localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('email', responseEmail);
+        localStorage.setItem('type', type);
+
+        // Rediriger vers la page "Materiel"
+        navigate('/materiel');
+      }
     } catch (err) {
-      setError('Invalid credentials');
+      // Gérer les erreurs spécifiques de la réponse
+      if (err.response && err.response.data.message) {
+        setError(err.response.data.message); // Message d'erreur retourné par le backend
+      } else {
+        setError('Invalid credentials'); // Message d'erreur générique
+      }
     }
   };
+
 
   // Fonction pour soumettre le code MFA
   const handleSubmitMfa = async (e) => {
@@ -50,7 +71,7 @@ const Login = () => {
       <div className="card shadow-lg" style={{ width: '100%', maxWidth: '400px' }}>
         <div className="card-body">
           <h4 className="card-title text-center mb-4">Authentifiez-vous</h4>
-          
+
           {/* Afficher le formulaire pour entrer l'email et le mot de passe */}
           {!isMfaRequired ? (
             <form onSubmit={handleSubmitLogin}>
