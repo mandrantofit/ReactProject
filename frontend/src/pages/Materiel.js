@@ -38,11 +38,20 @@ const Materiel = () => {
   const fetchCommandes = async () => {
     try {
       const response = await axios.get('http://172.25.52.205:8000/materiel/commandes');
-      setCommandes(response.data);  // Stocker les commandes
+
+      // Trie les commandes par numero_serie
+      const sortedCommandes = response.data.sort((a, b) => {
+        if (a.numero_serie < b.numero_serie) return -1;
+        if (a.numero_serie > b.numero_serie) return 1;
+        return 0;
+      });
+
+      setCommandes(sortedCommandes);  // Stocker les commandes triées
     } catch (error) {
       console.error('Erreur lors de la récupération des commandes:', error);
     }
   };
+
 
   const fetchPossibilites = async () => {
     try {
