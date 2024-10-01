@@ -2,108 +2,30 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const router = express.Router();
-const speakeasy = require('speakeasy'); // Importer speakeasy
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com', 
-    auth: {
-        user: 'mandrantofit@gmail.com', // Remplacez par votre email
-        pass: 'fknq zcxb piyi cdlx' // Remplacez par votre mot de passe
-    }
-});
-
 const db = require('../model/database');
 //urre fzde uqvl ovsd  mot de passe d application
 const JWT_SECRET = 'adminplus';
-
-router.post('/test-email', (req, res) => {
-    const testMailOptions = {
-        from: 'mandrantofit@gmail.com',
-        to: req.body.to, // Utiliser l'adresse e-mail fournie dans la requête
-        subject: 'Test Email',
-        text: 'This is a test email to check email sending functionality.'
-    };
-
-    transporter.sendMail(testMailOptions, (error, info) => {
-        if (error) {
-            console.error('Error sending test email:', error);
-            return res.status(500).json({ success: false, error: error.message || 'Failed to send test email' });
-        }
-        console.log('Test email sent:', info.response);
-        return res.json({ success: true, message: 'Test email sent successfully', response: info.response });
-    });
-});
-
 router.post('/', (req, res) => {
     const { email, password } = req.body;
     db.query('SELECT * FROM log_user WHERE email = ?', [email], (error, results) => {
         if (error) return res.status(500).json({ error: 'Database error' });
         if (results.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
-
         const user = results[0];
         bcrypt.compare(password, user.password_hash, (err, isMatch) => {
             if (err) return res.status(500).json({ error: 'Server error' });
             if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
 
-            // Générer un code MFA
-            const mfaSecret = speakeasy.generateSecret({ length: 20 });
-            const mfaToken = speakeasy.totp({
-                secret: mfaSecret.base32,
-                encoding: 'base32'
-            });
+            // Inclure le type d'utilisateur dans le payload du token
+            const token = jwt.sign({
+                id: user.ID_logUser,
+                email: user.email,
+                type: user.type // Assure-toi que le champ `type` existe dans ta base de données
+            }, JWT_SECRET, { expiresIn: '1h' });
 
-            // Envoyer le code MFA par email
-            const mailOptions = {
-                from: 'mandrantofit@gmail.com',
-                to: email,
-                subject: 'Votre code d\'authentification MFA',
-                text: `Votre code d'authentification est : ${mfaToken}`
-            };
-
-            transporter.sendMail(mailOptions, (error, info) => {
-                if (error) return res.status(500).json({ error: 'Failed to send MFA code' });
-
-                // Retourner une réponse indiquant que le code a été envoyé
-                res.json({ message: 'MFA code sent to email', mfaSecret: mfaSecret.base32 }); // Enregistrez mfaSecret.base32 dans la base de données pour la vérification ultérieure
-            });
+            res.json({ token, email: user.email, type: user.type });
         });
     });
 });
-
-// Route pour vérifier le code MFA
-router.post('/verify', (req, res) => {
-    const { email, mfaCode } = req.body;
-
-    // Récupérer l'utilisateur pour obtenir le secret MFA
-    db.query('SELECT * FROM log_user WHERE email = ?', [email], (error, results) => {
-        if (error) return res.status(500).json({ error: 'Database error' });
-        if (results.length === 0) return res.status(401).json({ error: 'Invalid credentials' });
-
-        const user = results[0];
-
-        // Vérifier le code MFA
-        const verified = speakeasy.totp.verify({
-            secret: user.mfa_secret, // Assurez-vous d'avoir stocké mfa_secret dans votre base de données
-            encoding: 'base32',
-            token: mfaCode
-        });
-
-        if (!verified) return res.status(401).json({ error: 'Invalid MFA code' });
-
-        // Si vérifié, générer le JWT et retourner la réponse
-        const token = jwt.sign({
-            id: user.ID_logUser,
-            email: user.email,
-            type: user.type
-        }, JWT_SECRET, { expiresIn: '1h' });
-
-        res.json({ token, email: user.email, type: user.type });
-    });
-});
-
-
-
 router.get('/', (req, res) => {
     db.query('SELECT * FROM log_user', (error, results) => { //  WHERE type = "user"
         if (error) return res.status(500).json({ error: 'Database error' });
