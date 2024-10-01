@@ -164,7 +164,7 @@ WHERE materiel.attribution = 'non';
 
 router.get('/inventaire', (req, res) => {
     const sqlGetMaterielNonAttribue = `
-      SELECT code,marque, COUNT(*) AS non_attribue
+      SELECT code,marque,modele COUNT(*) AS non_attribue
       FROM materiel
       WHERE attribution = 'non'
       GROUP BY code

@@ -27,7 +27,7 @@ const Stock = () => {
   const columns = [
     { field: 'code', headerName: 'Code', width: 250 },
     { field: 'marque', headerName: 'Marque', width: 700 },
-    //{ field: 'modele', headerName: 'Modèle', width: 750 },
+    { field: 'modele', headerName: 'Modèle', width: 750 },
     { field: 'non_attribue', headerName: 'Non Attribué', width: 100 },
   ];
 
