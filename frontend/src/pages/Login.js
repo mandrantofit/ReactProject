@@ -20,28 +20,29 @@ const Login = () => {
       // Envoyer l'email et le mot de passe pour l'authentification initiale
       const response = await axios.post('http://172.25.52.205:8000/login', { email, password });
 
-      // Vérifier si le MFA est requis en fonction de la réponse du backend
       if (response.data.mfaRequired) {
-        setIsMfaRequired(true); // Passer à la deuxième étape pour entrer le code MFA
-        setError(''); // Réinitialiser l'erreur
+        setIsMfaRequired(true);
+        setError('');
       } else {
-        // Si le MFA n'est pas requis, connecter l'utilisateur immédiatement
         const { token, email: responseEmail, type } = response.data;
-
-        // Stocker les données dans le localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('email', responseEmail);
         localStorage.setItem('type', type);
-
-        // Rediriger vers la page "Materiel"
         navigate('/materiel');
       }
     } catch (err) {
-      // Gérer les erreurs spécifiques de la réponse
-      if (err.response && err.response.data.message) {
-        setError(err.response.data.message); // Message d'erreur retourné par le backend
+      if (err.response) {
+        // Le serveur a renvoyé une réponse avec un code de statut qui sort de la plage 2xx
+        console.error('Response error:', err.response);
+        setError(err.response.data.message || 'Invalid credentials');
+      } else if (err.request) {
+        // La requête a été envoyée mais aucune réponse n'a été reçue
+        console.error('No response received:', err.request);
+        setError('No response from server. Please try again later.');
       } else {
-        setError('Invalid credentials'); // Message d'erreur générique
+        // Autre type d'erreur
+        console.error('Error:', err.message);
+        setError('An error occurred. Please try again.');
       }
     }
   };
