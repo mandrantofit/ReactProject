@@ -47,7 +47,11 @@ const Materiel = () => {
   const fetchPossibilites = async () => {
     try {
       const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
-      setPossibilites(response.data); // Stocke toutes les possibilités
+      const donneesTriees = response.data.sort((a, b) => {
+        // Supposons que 'a' et 'b' sont des objets avec une propriété 'nom' à trier
+        return a.nom.localeCompare(b.nom);
+      });
+      setPossibilites(donneesTriees); // Stocke les données triées
     } catch (error) {
       console.error('Erreur lors de la récupération des possibilités:', error);
     }
@@ -119,7 +123,7 @@ const Materiel = () => {
   const handleNumeroSerieChange = (e) => {
     const selectedNumeroSerie = e.target.value;
     const selectedCommande = commandes.find(commande => commande.numero_serie === selectedNumeroSerie);
-  
+
     if (selectedCommande) {
       setFormData({
         ...formData,
@@ -129,7 +133,7 @@ const Materiel = () => {
       });
     }
   };
-  
+
 
   const handleChange = (e) => {
     console.log('Changed:', e.target.name, e.target.value); // Debugging line
