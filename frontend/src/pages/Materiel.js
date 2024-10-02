@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash, FaFileExport } from 'react-icons/fa';
@@ -456,6 +456,9 @@ const Materiel = () => {
                 rowsPerPageOptions={[5]}
                 disableSelectionOnClick
                 className="bg-light"
+                components={{
+                  Toolbar: GridToolbar,
+                }}
               />
             </div>
           )}
