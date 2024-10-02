@@ -465,8 +465,8 @@ const Materiel = () => {
                 slotProps={{
                   toolbar: {
                     sx: {
-                      backgroundColor: 'black',
-                      color: 'white',
+                      backgroundColor: 'white',
+                      color: 'black',
                     },
                   },
                 }}
