@@ -431,7 +431,7 @@ const Materiel = () => {
             <button className="btn btn-success" onClick={() => setShowModal(true)}>
               Ajouter Matériel
             </button>
-            {/* 
+            
             
             <OverlayTrigger
               placement="top"
@@ -442,7 +442,7 @@ const Materiel = () => {
               </button>
             </OverlayTrigger>
             
-            */}
+            
 
           </div>
           {loading ? (
@@ -461,7 +461,7 @@ const Materiel = () => {
                 rowsPerPageOptions={[5]}
                 disableSelectionOnClick
                 className="bg-light"
-                slots={{ toolbar: GridToolbar }}
+               // slots={{ toolbar: GridToolbar }}
               />
             </div>
           )}
