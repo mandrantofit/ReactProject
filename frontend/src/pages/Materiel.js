@@ -431,6 +431,8 @@ const Materiel = () => {
             <button className="btn btn-success" onClick={() => setShowModal(true)}>
               Ajouter Matériel
             </button>
+            {/* 
+            
             <OverlayTrigger
               placement="top"
               overlay={<Tooltip id="export-tooltip">Exporter en Excel</Tooltip>}
@@ -439,6 +441,9 @@ const Materiel = () => {
                 <FaFileExport className="me-2" />
               </button>
             </OverlayTrigger>
+            
+            */}
+            
           </div>
           {loading ? (
             <div className="text-center">
