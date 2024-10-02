@@ -443,7 +443,7 @@ const Materiel = () => {
             </OverlayTrigger>
             
             */}
-            
+
           </div>
           {loading ? (
             <div className="text-center">
@@ -462,6 +462,14 @@ const Materiel = () => {
                 disableSelectionOnClick
                 className="bg-light"
                 slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    sx: {
+                      backgroundColor: 'black',
+                      color: 'white',
+                    },
+                  },
+                }}
               />
             </div>
           )}
