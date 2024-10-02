@@ -456,9 +456,7 @@ const Materiel = () => {
                 rowsPerPageOptions={[5]}
                 disableSelectionOnClick
                 className="bg-light"
-                components={{
-                  Toolbar: GridToolbar,
-                }}
+                slots={{ toolbar: GridToolbar }}
               />
             </div>
           )}
