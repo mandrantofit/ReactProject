@@ -462,14 +462,6 @@ const Materiel = () => {
                 disableSelectionOnClick
                 className="bg-light"
                 slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                  toolbar: {
-                    sx: {
-                      backgroundColor: 'white',
-                      color: 'black',
-                    },
-                  },
-                }}
               />
             </div>
           )}
