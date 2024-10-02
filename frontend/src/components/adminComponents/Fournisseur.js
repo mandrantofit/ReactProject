@@ -4,7 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Fournisseur = () => {
   const [fournisseurs, setFournisseurs] = useState([]);
   const [formData, setFormData] = useState({ nom: '' });
@@ -16,7 +19,7 @@ const Fournisseur = () => {
   // Fetch all fournisseurs
   const fetchFournisseurs = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getFournisseur');
+      const response = await api.get('/getFournisseur');
       setFournisseurs(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,11 +41,11 @@ const Fournisseur = () => {
     try {
       if (isEditMode) {
         // Update fournisseur
-        await axios.put(`http://172.25.52.205:8000/getFournisseur/${selectedId}`, formData);
+        await api.put(`/getFournisseur/${selectedId}`, formData);
         toast.success('Fournisseur mis à jour avec succès');
       } else {
         // Add new fournisseur
-        await axios.post('http://172.25.52.205:8000/getFournisseur', formData);
+        await api.post('/getFournisseur', formData);
         toast.success('Fournisseur ajouté avec succès');
       }
       setFormData({ nom: '' });
@@ -66,7 +69,7 @@ const Fournisseur = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce fournisseur ?')) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/getFournisseur/${id}`);
+        await api.delete(`/getFournisseur/${id}`);
         toast.success('Fournisseur supprimé avec succès');
         fetchFournisseurs();
       } catch (error) {

@@ -5,7 +5,10 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+import config from '../../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Fiche = () => {
   const [possibilites, setPossibilites] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -20,7 +23,7 @@ const Fiche = () => {
   // Fonction pour récupérer les possibilités
   const fetchPossibilites = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
+      const response = await api.get('/materiel/possibilite');
       setPossibilites(response.data);
       setLoading(false);
     } catch (error) {
@@ -54,14 +57,14 @@ const Fiche = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://172.25.52.205:8000/materiel/possibilite/${formData.id}`, {
+        await api.put(`/materiel/possibilite/${formData.id}`, {
           possibilite_code: formData.possibilite_code,
           possibilite_marque: formData.possibilite_marque,
           possibilite_modele: formData.possibilite_modele
         });
         toast.success('Possibilité mise à jour avec succès');
       } else {
-        await axios.post('http://172.25.52.205:8000/materiel/possibilite', {
+        await api.post('/materiel/possibilite', {
           possibilite_code: formData.possibilite_code,
           possibilite_marque: formData.possibilite_marque,
           possibilite_modele: formData.possibilite_modele
@@ -77,7 +80,7 @@ const Fiche = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://172.25.52.205:8000/materiel/possibilite/${id}`);
+      await api.delete(`/materiel/possibilite/${id}`);
       toast.success('Possibilité supprimée avec succès');
       fetchPossibilites();
     } catch (error) {

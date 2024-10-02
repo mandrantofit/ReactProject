@@ -7,7 +7,10 @@ import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
-
+import config from '../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Materiel = () => {
   const [materiels, setMateriels] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -37,7 +40,7 @@ const Materiel = () => {
 
   const fetchCommandes = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/commandes');
+      const response = await api.get('/materiel/commandes');
 
       // Trie les commandes par numero_serie
       const sortedCommandes = response.data.sort((a, b) => {
@@ -55,7 +58,7 @@ const Materiel = () => {
 
   const fetchPossibilites = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/possibilite');
+      const response = await api.get('/materiel/possibilite');
 
       // Trie les possibilités par possibilite_code
       const sortedPossibilites = response.data.sort((a, b) => {
@@ -73,7 +76,7 @@ const Materiel = () => {
 
   const fetchMateriel = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel');
+      const response = await api.get('/materiel');
       setMateriels(response.data);
       setLoading(false);
     } catch (error) {
@@ -93,7 +96,7 @@ const Materiel = () => {
 
   const fetchEtats = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getEtat');
+      const response = await api.get('/getEtat');
       setEtats(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des états:', error);
@@ -102,7 +105,7 @@ const Materiel = () => {
 
   const fetchFournisseurs = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getFournisseur');
+      const response = await api.get('/getFournisseur');
       setFournisseurs(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des fournisseurs:', error);
@@ -158,7 +161,7 @@ const Materiel = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://172.25.52.205:8000/materiel', formData);
+      await api.post('/materiel', formData);
       setFormData({
         code: '',
         modele: '',
@@ -184,7 +187,7 @@ const Materiel = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://172.25.52.205:8000/materiel/${selectedId}`, formData);
+      await api.put(`/materiel/${selectedId}`, formData);
       setFormData({
         code: '',
         modele: '',
@@ -209,7 +212,7 @@ const Materiel = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce matériel ?")) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/materiel/${id}`);
+        await api.delete(`/materiel/${id}`);
         toast.success('Matériel supprimé avec succès !');
         fetchMateriel();
         fetchPossibilites(); // Mettre à jour la liste après suppression

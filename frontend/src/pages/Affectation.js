@@ -6,7 +6,10 @@ import { FaEdit, FaUndo as FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Tab, Nav, Modal } from 'react-bootstrap';
-
+import config from '../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Affectation = () => {
   const [affectations, setAffectations] = useState([]);
   const [materiels, setMateriels] = useState([]);
@@ -24,7 +27,7 @@ const Affectation = () => {
   // Fetch Data
   const fetchHistorique = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/affectation/historique');
+      const response = await api.get('/affectation/historique');
       setHistorique(response.data);
     } catch (error) {
       toast.error('Erreur lors de la récupération de l\'historique:', error);
@@ -33,7 +36,7 @@ const Affectation = () => {
 
   const fetchAffectations = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/affectation');
+      const response = await api.get('/affectation');
       setAffectations(response.data);
       setLoading(false);
     } catch (error) {
@@ -44,7 +47,7 @@ const Affectation = () => {
 
   const fetchMaterielsForAdd = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/non_attribue');
+      const response = await api.get('/materiel/non_attribue');
       setMateriels(response.data);
       fetchAffectations();
     } catch (error) {
@@ -54,7 +57,7 @@ const Affectation = () => {
 
   const fetchMaterielsForUpdate = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/non_attribue');
+      const response = await api.get('/materiel/non_attribue');
       setMateriels(response.data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des matériels:', error);
@@ -63,7 +66,7 @@ const Affectation = () => {
 
   const fetchUtilisateurs = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getUser');
+      const response = await api.get('/getUser');
       setUtilisateurs(response.data);
     } catch (error) {
       toast.error('Erreur lors de la récupération des utilisateurs:', error);
@@ -92,7 +95,7 @@ const Affectation = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://172.25.52.205:8000/affectation', formData);
+      await api.post('/affectation', formData);
       setFormData({
         ID_materiel: '',
         ID_utilisateur: '',
@@ -111,7 +114,7 @@ const Affectation = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://172.25.52.205:8000/affectation/${selectedId}`, formData);
+      await api.put(`/affectation/${selectedId}`, formData);
       setFormData({
         ID_materiel: '',
         ID_utilisateur: '',
@@ -130,7 +133,7 @@ const Affectation = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir désaffecter ce matériel ?")) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/affectation/${id}`);
+        await api.delete(`/affectation/${id}`);
         toast.success('Matériel désaffecté avec succès !');
         fetchAffectations();
         fetchHistorique();

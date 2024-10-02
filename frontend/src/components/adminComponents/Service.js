@@ -4,7 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 // Composant Service
 const Service = () => {
   const [services, setServices] = useState([]);
@@ -17,7 +20,7 @@ const Service = () => {
   // Fetch all services
   const fetchServices = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getUser/service');
+      const response = await api.get('/getUser/service');
       setServices(response.data);
       setLoading(false);
     } catch (error) {
@@ -39,11 +42,11 @@ const Service = () => {
     try {
       if (isEditMode) {
         // Update service
-        await axios.put(`http://172.25.52.205:8000/getUser/service/${selectedId}`, formData);
+        await api.put(`/getUser/service/${selectedId}`, formData);
         toast.success('Service mis à jour avec succès');
       } else {
         // Add new service
-        await axios.post('http://172.25.52.205:8000/getUser/service', formData);
+        await api.post('/getUser/service', formData);
         toast.success('Service ajouté avec succès');
       }
       setFormData({ Nom: '' });
@@ -67,7 +70,7 @@ const Service = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce service ?')) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/getUser/service/${id}`);
+        await api.delete(`/getUser/service/${id}`);
         toast.success('Service supprimé avec succès');
         fetchServices();
       } catch (error) {

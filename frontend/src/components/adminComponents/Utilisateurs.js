@@ -4,7 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Utilisateurs = () => {
   const [utilisateurs, setUtilisateurs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,7 +25,7 @@ const Utilisateurs = () => {
 
   const fetchUtilisateurs = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/login');
+      const response = await api.get('/login');
       const dataWithIds = response.data.map((user, index) => ({
         ...user,
         ID_logUser: user.ID_logUser || index + 1,
@@ -41,10 +44,10 @@ const Utilisateurs = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://172.25.52.205:8000/login/${selectedId}`, formData);
+        await api.put(`/login/${selectedId}`, formData);
         toast.success('Modification faite avec succès');
       } else {
-        await axios.post('http://172.25.52.205:8000/login/ajout', formData);
+        await api.post('/login/ajout', formData);
         toast.success('Ajout fait avec succès');
       }
       setFormData({ email: '', password: '', type: 'user' });
@@ -66,7 +69,7 @@ const Utilisateurs = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/login/${id}`);
+        await api.delete(`/login/${id}`);
         fetchUtilisateurs();
         toast.success("Utilisateur supprimé avec succès");
       } catch (error) {

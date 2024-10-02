@@ -4,7 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Stock = () => {
   const [inventaire, setInventaire] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -12,7 +15,7 @@ const Stock = () => {
   useEffect(() => {
     const fetchInventaire = async () => {
       try {
-        const response = await axios.get('http://172.25.52.205:8000/materiel/inventaire');
+        const response = await api.get('/materiel/inventaire');
         setInventaire(response.data);
         setLoading(false);
       } catch (error) {

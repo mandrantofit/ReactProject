@@ -5,7 +5,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Employee = () => {
     const [users, setUsers] = useState([]);
     const [services, setServices] = useState([]);
@@ -23,7 +26,7 @@ const Employee = () => {
 
     const fetchUsers = async () => {
         try {
-            const response = await axios.get('http://172.25.52.205:8000/getUser');
+            const response = await api.get('/getUser');
             setUsers(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des utilisateurs:', error);
@@ -35,7 +38,7 @@ const Employee = () => {
 
     const fetchServices = async () => {
         try {
-            const response = await axios.get('http://172.25.52.205:8000/getUser/service');
+            const response = await api.get('/getUser/service');
             setServices(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des services:', error);
@@ -45,7 +48,7 @@ const Employee = () => {
 
     const fetchLieux = async () => { // Ajouter pour récupérer les lieux
         try {
-            const response = await axios.get('http://172.25.52.205:8000/getUser/lieux');
+            const response = await api.get('/getUser/lieux');
             setLieux(response.data);
         } catch (error) {
             console.error('Erreur lors de la récupération des lieux:', error);
@@ -66,7 +69,7 @@ const Employee = () => {
     const handleAdd = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://172.25.52.205:8000/getUser', formData);
+            await api.post('/getUser', formData);
             setFormData({ nom: '', ID_service: '', ID_lieux: '' }); // Réinitialiser id_lieux
             toast.success('Utilisateur ajouté avec succès !');
             setShowModal(false);
@@ -79,7 +82,7 @@ const Employee = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://172.25.52.205:8000/getUser/${selectedId}`, formData);
+            await api.put(`/getUser/${selectedId}`, formData);
             setFormData({ nom: '', ID_service: '', ID_lieux: '' }); // Réinitialiser id_lieux
             toast.success('Utilisateur mis à jour avec succès !');
             setShowUpdateModal(false);
@@ -92,7 +95,7 @@ const Employee = () => {
     const handleDelete = async (id) => {
         if (window.confirm("Êtes-vous sûr de vouloir supprimer cet utilisateur ?")) {
             try {
-                await axios.delete(`http://172.25.52.205:8000/getUser/${id}`);
+                await api.delete(`/getUser/${id}`);
                 toast.success('Utilisateur supprimé avec succès !');
                 fetchUsers();
             } catch (error) {

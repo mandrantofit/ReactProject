@@ -5,7 +5,11 @@ import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import config from '../../config';
 
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Commande = () => {
   const [commandes, setCommandes] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +29,7 @@ const Commande = () => {
   // Fonction pour récupérer toutes les commandes
   const fetchCommandes = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/materiel/commandes');
+      const response = await api.get('/materiel/commandes');
       setCommandes(response.data);
       setLoading(false);
     } catch (error) {
@@ -59,14 +63,14 @@ const Commande = () => {
     e.preventDefault();
     try {
       if (isEditMode) {
-        await axios.put(`http://172.25.52.205:8000/materiel/commandes/${formData.id}`, {
+        await api.put(`/materiel/commandes/${formData.id}`, {
           numero_serie: formData.numero_serie,
           bon_de_commande: formData.bon_de_commande,
           bon_de_livraison: formData.bon_de_livraison
         });
         toast.success('Commande mise à jour avec succès');
       } else {
-        await axios.post('http://172.25.52.205:8000/materiel/commandes', {
+        await api.post('/materiel/commandes', {
           numero_serie: formData.numero_serie,
           bon_de_commande: formData.bon_de_commande,
           bon_de_livraison: formData.bon_de_livraison
@@ -82,7 +86,7 @@ const Commande = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://172.25.52.205:8000/materiel/commandes/${id}`);
+      await api.delete(`/materiel/commandes/${id}`);
       toast.success('Commande supprimée avec succès');
       fetchCommandes();
     } catch (error) {

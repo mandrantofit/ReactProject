@@ -4,7 +4,10 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Lieux = () => {
   const [lieux, setLieux] = useState([]);
   const [formData, setFormData] = useState({ lieux: '' });
@@ -16,7 +19,7 @@ const Lieux = () => {
   // Fetch all lieux
   const fetchLieux = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getUser/lieux');
+      const response = await api.get('getUser/lieux');
       setLieux(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,11 +41,11 @@ const Lieux = () => {
     try {
       if (isEditMode) {
         // Update lieu
-        await axios.put(`http://172.25.52.205:8000/getUser/lieux/${selectedId}`, formData);
+        await api.put(`/getUser/lieux/${selectedId}`, formData);
         toast.success('Lieu mis à jour avec succès');
       } else {
         // Add new lieu
-        await axios.post('http://172.25.52.205:8000/getUser/lieux', formData);
+        await api.post('/getUser/lieux', formData);
         toast.success('Lieu ajouté avec succès');
       }
       setFormData({ lieux: '' });
@@ -66,7 +69,7 @@ const Lieux = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce lieu ?')) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/getUser/lieux/${id}`);
+        await api.delete(`/getUser/lieux/${id}`);
         toast.success('Lieu supprimé avec succès');
         fetchLieux();
       } catch (error) {

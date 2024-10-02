@@ -3,7 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-
+import config from '../config';
+const api = axios.create({
+  baseURL: config.BASE_URL,
+});
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,7 +17,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://172.25.52.205:8000/login', { email, password });
+      const response = await api.post('/login', { email, password });
       const { token, email: responseEmail, type } = response.data;
 
       // Stocker les données dans le localStorage
