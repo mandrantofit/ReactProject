@@ -4,7 +4,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import config from '../../config';
 const Categorie = () => {
   const [categories, setCategories] = useState([]);
   const [formData, setFormData] = useState({ type: '' });
@@ -13,10 +13,14 @@ const Categorie = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
+  const api = axios.create({
+    baseURL: config.BASE_URL,
+});
+
   // Fetch all categories
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getCategorie');
+      const response = await api.get('/getCategorie');
       setCategories(response.data);
       setLoading(false);
     } catch (error) {
@@ -38,11 +42,11 @@ const Categorie = () => {
     try {
       if (isEditMode) {
         // Update category
-        await axios.put(`http://172.25.52.205:8000/getCategorie/${selectedId}`, formData);
+        await api.put(`/getCategorie/${selectedId}`, formData);
         toast.success('Catégorie mise à jour avec succès');
       } else {
         // Add new category
-        await axios.post('http://172.25.52.205:8000/getCategorie', formData);
+        await api.post('/getCategorie', formData);
         toast.success('Catégorie ajoutée avec succès');
       }
       setFormData({ type: '' });
@@ -66,7 +70,7 @@ const Categorie = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer cette catégorie ?')) {
       try {
-        await axios.delete(`http://172.25.52.205:8000/getCategorie/${id}`);
+        await api.delete(`/getCategorie/${id}`);
         toast.success('Catégorie supprimée avec succès');
         fetchCategories();
       } catch (error) {
