@@ -87,7 +87,7 @@ const Materiel = () => {
 
   const fetchCategories = async () => {
     try {
-      const response = await axios.get('http://172.25.52.205:8000/getCategorie');
+      const response = await api.get('/getCategorie');
       setCategories(response.data);
     } catch (error) {
       console.error('Erreur lors de la récupération des catégories:', error);
