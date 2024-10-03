@@ -10,6 +10,17 @@ import config from '../config';
 const api = axios.create({
   baseURL: config.BASE_URL,
 });
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token'); // Récupérer le token
+
+  if (token) {
+      config.headers.Authorization = `Bearer ${token}`; // Ajouter le token aux en-têtes
+  }
+
+  return config; // Retourner la configuration modifiée
+}, (error) => {
+  return Promise.reject(error); // Gérer l'erreur de la requête
+});
 const Affectation = () => {
   const [affectations, setAffectations] = useState([]);
   const [materiels, setMateriels] = useState([]);
