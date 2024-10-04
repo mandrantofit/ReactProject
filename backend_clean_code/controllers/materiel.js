@@ -7,15 +7,9 @@ const materielController = {
         if (!code || !modele || !marque || !numero_serie || !ID_categorie || !ID_etat || !ID_fournisseur) {
             return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
         }
-
-        Materiel.findByNumeroSerie(numero_serie, (error, results) => {
-            if (error) return res.status(500).json({ error: 'Erreur serveur' });
-            if (results.length > 0) return res.status(400).json({ error: 'Le numéro de série existe déjà.' });
-
-            Materiel.create([code, modele, marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison], (error, results) => {
-                if (error) return res.status(500).json({ error: 'Erreur lors de l\'insertion du matériel' });
-                res.status(201).json({ message: 'Matériel ajouté avec succès', materielId: results.insertId });
-            });
+        Materiel.create([code, modele, marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison], (error, results) => {
+            if (error) return res.status(500).json({ error: 'Erreur lors de l\'insertion du matériel' });
+            res.status(201).json({ message: 'Matériel ajouté avec succès', materielId: results.insertId });
         });
     },
 
@@ -26,15 +20,9 @@ const materielController = {
         if (!id || !code || !modele || !marque || !numero_serie || !ID_categorie || !ID_etat || !ID_fournisseur) {
             return res.status(400).json({ error: 'Veuillez fournir toutes les informations requises' });
         }
-
-        Materiel.findByNumeroSerie(numero_serie, (error, results) => {
-            if (error) return res.status(500).json({ error: 'Erreur serveur' });
-            if (results.length > 0 && results[0].ID_materiel != id) return res.status(400).json({ error: 'Le numéro de série existe déjà pour un autre matériel.' });
-
-            Materiel.update(id, [code, modele, marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison], (error, results) => {
-                if (error) return res.status(500).json({ error: 'Erreur lors de la mise à jour du matériel' });
-                res.status(200).json({ message: 'Matériel mis à jour avec succès' });
-            });
+        Materiel.update(id, [code, modele, marque, numero_serie, numero_inventaire, ID_categorie, ID_etat, ID_fournisseur, bon_de_commande, config, bon_de_livraison], (error, results) => {
+            if (error) return res.status(500).json({ error: 'Erreur lors de la mise à jour du matériel' });
+            res.status(200).json({ message: 'Matériel mis à jour avec succès' });
         });
     },
 
