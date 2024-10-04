@@ -17,7 +17,7 @@ const Materiel = {
       WHERE attribution = 'non'
       GROUP BY code
     `;
-        db.query(sql , callback);
+        db.query(sql, callback);
     },
 
     update: (id, data, callback) => {
@@ -123,7 +123,15 @@ const Materiel = {
     },
 
     getCommandes: (callback) => {
-        const sqlGet = 'SELECT * FROM commande';
+        const sqlGet = `
+                    SELECT *
+            FROM commande
+            WHERE numero_serie NOT IN (
+                SELECT numero_serie
+                FROM materiel
+                WHERE numero_serie IS NOT NULL
+            );
+        `;
         db.query(sqlGet, (error, results) => {
             if (error) {
                 console.error('Erreur lors de la récupération des commandes :', error);
