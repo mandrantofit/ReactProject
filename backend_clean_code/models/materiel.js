@@ -17,7 +17,7 @@ const Materiel = {
       WHERE attribution = 'non'
       GROUP BY code
     `;
-        db.query(sql , callback);
+        db.query(sql, callback);
     },
 
     update: (id, data, callback) => {
@@ -36,15 +36,28 @@ const Materiel = {
 
     findAll: (callback) => {
         const sql = `
-            SELECT materiel.ID_materiel, materiel.code, materiel.modele, materiel.marque, materiel.numero_serie, 
-                   IFNULL(materiel.numero_inventaire, 'N/A') AS numero_inventaire,
-                   categorie.type AS type, etat.description AS etat, fournisseur.nom AS fournisseur,
-                   materiel.bon_de_commande, materiel.config, materiel.bon_de_livraison, materiel.attribution
-            FROM materiel
-            LEFT JOIN categorie ON materiel.ID_categorie = categorie.ID_categorie
-            LEFT JOIN etat ON materiel.ID_etat = etat.ID_etat
-            LEFT JOIN fournisseur ON materiel.ID_fournisseur = fournisseur.ID_fournisseur
-        `;
+      SELECT 
+    materiel.ID_materiel,
+    materiel.code,
+    materiel.modele,
+    materiel.marque,
+    materiel.numero_serie,
+    CASE 
+        WHEN materiel.numero_inventaire IS NULL OR materiel.numero_inventaire = '' THEN 'N/A' 
+        ELSE materiel.numero_inventaire 
+    END AS numero_inventaire,
+    categorie.type AS type,
+    etat.description AS etat,
+    fournisseur.nom AS fournisseur,
+    materiel.bon_de_commande,
+    materiel.config,
+    materiel.bon_de_livraison,
+    materiel.attribution
+FROM materiel
+LEFT JOIN categorie ON materiel.ID_categorie = categorie.ID_categorie
+LEFT JOIN etat ON materiel.ID_etat = etat.ID_etat
+LEFT JOIN fournisseur ON materiel.ID_fournisseur = fournisseur.ID_fournisseur;
+    `;
         db.query(sql, callback);
     },
 

@@ -11,10 +11,10 @@ router.put('/:id',authMiddleware, userController.updateUser);
 router.delete('/:id',authMiddleware, userController.deleteUser);
 
 // Routes pour les services
-router.get('/services',authMiddleware, userController.getAllServices);
-router.post('/services',authMiddleware, userController.createService);
-router.put('/services/:id',authMiddleware, userController.updateService);
-router.delete('/services/:id',authMiddleware, userController.deleteService);
+router.get('/service',authMiddleware, userController.getAllServices);
+router.post('/service',authMiddleware, userController.createService);
+router.put('/service/:id',authMiddleware, userController.updateService);
+router.delete('/service/:id',authMiddleware, userController.deleteService);
 
 // Routes pour les lieux
 router.get('/lieux',authMiddleware, userController.getAllLieux);
