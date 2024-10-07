@@ -20,7 +20,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="container-fluid">
-        <Link className="navbar-brand">
+        <Link className="navbar-brand" to="/">
           <img src={canalLogo} alt="Canal+" style={{ height: '40px' }} /> {/* Ajout du logo ici */}
         </Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,11 +28,33 @@ const Navbar = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <Link className="nav-link text-light" to="/materiel">Matériel</Link>
+            {/* Dropdown pour Matériel */}
+            <li className="nav-item dropdown">
+              <Link className="nav-link dropdown-toggle text-light" to="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Matériel
+              </Link>
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <Link className="dropdown-item" to="/materiel">Matériel</Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/consomable">Consommable</Link>
+                </li>
+              </ul>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link text-light" to="/affectation">Affectation</Link>
+            {/* Dropdown pour Affectation */}
+            <li className="nav-item dropdown">
+              <Link className="nav-link dropdown-toggle text-light" to="#" id="navbarDropdownAffectation" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Affectation
+              </Link>
+              <ul className="dropdown-menu" aria-labelledby="navbarDropdownAffectation">
+                <li>
+                  <Link className="dropdown-item" to="/affectation">Affectation</Link>
+                </li>
+                <li>
+                  <Link className="dropdown-item" to="/affectationConsomable">Affectation Consommable</Link>
+                </li>
+              </ul>
             </li>
             <li className="nav-item">
               <Link className="nav-link text-light" to="/stock">Stock</Link>
@@ -49,7 +71,6 @@ const Navbar = () => {
                 <Link className="nav-link text-light" to="/admin">Admin</Link>
               </li>
             )}
-            
           </ul>
           {/* Déplacement du bouton Logout dans la liste des liens */}
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">

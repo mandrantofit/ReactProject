@@ -77,6 +77,21 @@ const consomableController = {
         } catch (error) {
             res.status(500).json({ error: 'Erreur lors de la suppression du consommable' });
         }
+    },
+
+    // Mettre à jour la quantité d'un consommable
+    updateQuantity: async (req, res) => {
+        const { id } = req.params; // Récupérer l'ID du consommable depuis les paramètres de la requête
+        const { quantite } = req.body; // Récupérer la nouvelle quantité depuis le corps de la requête
+
+        try {
+            // Appeler le modèle pour mettre à jour la quantité
+            const result = await consomable.updateQuantity(id, quantite);
+            res.status(200).json({ message: 'Quantité mise à jour avec succès.', result });
+        } catch (error) {
+            console.error("Erreur lors de la mise à jour de la quantité:", error);
+            res.status(500).json({ message: 'Erreur lors de la mise à jour de la quantité.' });
+        }
     }
 };
 
