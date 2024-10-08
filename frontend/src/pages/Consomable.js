@@ -27,6 +27,7 @@ const Consomable = () => {
     const [consomables, setConsomables] = useState([]);
     const [fournisseurs, setFournisseurs] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [possibilites, setPossibilites] = useState([]);
     const [formData, setFormData] = useState({
         numero_inventaire: '',
         code: '',
@@ -55,6 +56,23 @@ const Consomable = () => {
         }
     };
 
+    const fetchPossibilites = async () => {
+        try {
+            const response = await api.get('/materiel/possibilite');
+
+            // Trie les possibilités par possibilite_code
+            const sortedPossibilites = response.data.sort((a, b) => {
+                if (a.possibilite_code < b.possibilite_code) return -1;
+                if (a.possibilite_code > b.possibilite_code) return 1;
+                return 0;
+            });
+
+            setPossibilites(sortedPossibilites); // Stocke les possibilités triées
+        } catch (error) {
+            console.error('Erreur lors de la récupération des possibilités:', error);
+        }
+    };
+
     // Fetch fournisseurs
     const fetchFournisseurs = async () => {
         try {
@@ -68,7 +86,22 @@ const Consomable = () => {
     useEffect(() => {
         fetchConsomables();
         fetchFournisseurs();
+        fetchPossibilites();
     }, []);
+
+    const handleCodeChange = (e) => {
+        const selectedCode = e.target.value;
+        const selectedPossibilite = possibilites.find(pos => pos.possibilite_code === selectedCode);
+
+        if (selectedPossibilite) {
+            setFormData({
+                ...formData,
+                code: selectedPossibilite.possibilite_code,
+                marque: selectedPossibilite.possibilite_marque,
+                modele: selectedPossibilite.possibilite_modele
+            });
+        }
+    };
 
     const handleFieldChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -78,7 +111,7 @@ const Consomable = () => {
     const handleAddConsomable = async (e) => {
         e.preventDefault();
         try {
-            await api.post(':8000/consomables', formData);
+            await api.post('/consomables', formData);
             toast.success('Consommable ajouté avec succès !');
             setIsModalOpen(false);
             fetchConsomables();
@@ -161,6 +194,7 @@ const Consomable = () => {
     };
 
     const handleCancel = () => {
+        setIsModalOpen(false);
         setIsUpdateModalOpen(false);
         setIsIncrementModalOpen(false); // Réinitialiser la sélection
         setSelectedId(null);  // Réinitialiser l'ID sélectionné
@@ -183,7 +217,7 @@ const Consomable = () => {
         { field: 'marque', headerName: 'Marque', width: 120 },
         { field: 'modele', headerName: 'Modèle', width: 150 },
         { field: 'quantite', headerName: 'Quantité', width: 100 },
-        { field: 'config', headerName: 'Details', width: 100 },
+        //{ field: 'config', headerName: 'Details', width: 100 },
         { field: 'fournisseur', headerName: 'Fournisseur', width: 200 },
         { field: 'bon_de_commande', headerName: 'Bon de Commande', width: 200 },
         { field: 'bon_de_livraison', headerName: 'Bon de Livraison', width: 200 },
@@ -260,35 +294,41 @@ const Consomable = () => {
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Code</label>
-                                        <input
-                                            type="text"
+                                        <select
                                             name="code"
                                             value={formData.code}
-                                            onChange={handleFieldChange}
+                                            onChange={handleCodeChange}
                                             className="form-control"
                                             required
-                                        />
+                                        >
+                                            <option value="">Sélectionner un code</option>
+                                            {possibilites.map((possibilite) => (
+                                                <option key={possibilite.ID_possibilite} value={possibilite.possibilite_code}>
+                                                    {possibilite.possibilite_code}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Modèle</label>
-                                        <input
-                                            type="text"
-                                            name="modele"
-                                            value={formData.modele}
-                                            onChange={handleFieldChange}
-                                            className="form-control"
-                                            required
-                                        />
-                                    </div>
+                                    {/* Champ Marque - Automatiquement mis à jour */}
                                     <div className="mb-3">
                                         <label className="form-label">Marque</label>
                                         <input
                                             type="text"
                                             name="marque"
                                             value={formData.marque}
-                                            onChange={handleFieldChange}
                                             className="form-control"
-                                            required
+                                            readOnly
+                                        />
+                                    </div>
+                                    {/* Champ Modèle - Automatiquement mis à jour */}
+                                    <div className="mb-3">
+                                        <label className="form-label">Modèle</label>
+                                        <input
+                                            type="text"
+                                            name="modele"
+                                            value={formData.modele}
+                                            className="form-control"
+                                            readOnly
                                         />
                                     </div>
                                     <div className="mb-3">
@@ -337,6 +377,7 @@ const Consomable = () => {
                                             onChange={handleFieldChange}
                                             className="form-control"
                                             required
+                                            min="1"
                                         />
                                     </div>
                                     <button type="submit" className="btn btn-primary">Ajouter</button>
@@ -368,6 +409,7 @@ const Consomable = () => {
                                             onChange={handleFieldChange}
                                             className="form-control"
                                             required
+                                            min="0"
                                         />
                                     </div>
                                     <button type="submit" className="btn btn-primary">Incrémenter</button>
@@ -403,35 +445,41 @@ const Consomable = () => {
                                     </div>
                                     <div className="mb-3">
                                         <label className="form-label">Code</label>
-                                        <input
-                                            type="text"
+                                        <select
                                             name="code"
                                             value={formData.code}
-                                            onChange={handleFieldChange}
+                                            onChange={handleCodeChange}
                                             className="form-control"
                                             required
-                                        />
+                                        >
+                                            <option value="">Sélectionner un code</option>
+                                            {possibilites.map((possibilite) => (
+                                                <option key={possibilite.ID_possibilite} value={possibilite.possibilite_code}>
+                                                    {possibilite.possibilite_code}
+                                                </option>
+                                            ))}
+                                        </select>
                                     </div>
-                                    <div className="mb-3">
-                                        <label className="form-label">Modèle</label>
-                                        <input
-                                            type="text"
-                                            name="modele"
-                                            value={formData.modele}
-                                            onChange={handleFieldChange}
-                                            className="form-control"
-                                            required
-                                        />
-                                    </div>
+                                    {/* Champ Marque - Automatiquement mis à jour */}
                                     <div className="mb-3">
                                         <label className="form-label">Marque</label>
                                         <input
                                             type="text"
                                             name="marque"
                                             value={formData.marque}
-                                            onChange={handleFieldChange}
                                             className="form-control"
-                                            required
+                                            readOnly
+                                        />
+                                    </div>
+                                    {/* Champ Modèle - Automatiquement mis à jour */}
+                                    <div className="mb-3">
+                                        <label className="form-label">Modèle</label>
+                                        <input
+                                            type="text"
+                                            name="modele"
+                                            value={formData.modele}
+                                            className="form-control"
+                                            readOnly
                                         />
                                     </div>
                                     <div className="mb-3">
