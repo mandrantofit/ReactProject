@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import config from '../config';
 import {
   CContainer,
   CRow,
@@ -13,9 +12,9 @@ import {
   CFormInput,
   CFormLabel,
   CButton,
-} from '@coreui/react'; // Importation des composants CoreUI
-import '@coreui/coreui/dist/css/coreui.min.css'; // Importation du CSS CoreUI
-import '../styles/Login.css'; // Style personnalisé pour le thème Canal+
+} from '@coreui/react';
+import '@coreui/coreui/dist/css/coreui.min.css';
+import '../styles/Login.css'; 
 
 const api = axios.create({
   baseURL: config.BASE_URL,
@@ -36,7 +35,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // Assurez-vous que la version de react-router-dom est compatible
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleSubmit = async (e) => {
