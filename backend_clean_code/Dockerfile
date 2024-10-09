@@ -17,11 +17,14 @@ FROM node:18-alpine
 # Définir le répertoire de travail
 WORKDIR /app
 
+# Installer PM2
+RUN npm install -g pm2
+
 # Copier les fichiers de l'étape de construction
 COPY --from=build /app /app
 
 # Exposer le port sur lequel l'application écoute
 EXPOSE 8000
 
-# Définir la commande pour démarrer l'application
-CMD ["node", "index.js"]
+# Définir la commande pour démarrer l'application avec PM2
+CMD ["pm2", "start", "ecosystem.config.js"]

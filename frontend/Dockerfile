@@ -17,13 +17,19 @@ COPY . .
 RUN npm run build
 
 # Étape 2 : Créer l'image finale
-FROM nginx:alpine
+FROM node:18-alpine
 
-# Copier les fichiers construits de l'étape précédente vers le répertoire de Nginx
-COPY --from=build /app/build /usr/share/nginx/html
+# Installer PM2
+RUN npm install -g pm2
 
-# Exposer le port 81 pour eviter d'autre conflit avec les autre host (80)
-EXPOSE 81
+# Définir le répertoire de travail
+WORKDIR /app
 
-# Commande pour démarrer Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Copier les fichiers construits de l'étape précédente vers le répertoire de l'application
+COPY --from=build /app/build /app/build
+
+# Exposer le port 3000
+EXPOSE 3000
+
+# Commande pour démarrer l'application avec PM2
+CMD ["pm2", "start", "ecosystem.config.js"]
