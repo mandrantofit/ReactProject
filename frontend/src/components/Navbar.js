@@ -20,6 +20,7 @@ let isAdmin = false;
 if (token) {
   const decoded = jwtDecode(token);
   isAdmin = decoded.type === 'admin'; // Assurez-vous que le champ 'type' existe dans le token
+  console.log(decoded.type);
 }
 
   return (

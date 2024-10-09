@@ -9,6 +9,7 @@ const AdminRoute = ({ children }) => {
   if (token) {
     const decoded = jwtDecode(token);
     isAdmin = decoded.type === 'admin'; // Assurez-vous que le champ 'type' existe dans le token
+    console.log(decoded.type);
   }
 
   // Vérifie si le type d'utilisateur est admin
