@@ -4,20 +4,23 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import config from '../config';
+import backgroundImage from '../assets/server.jpeg'; // Remplacez par le chemin de votre image
+
 const api = axios.create({
   baseURL: config.BASE_URL,
 });
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token'); // Récupérer le token
+  const token = localStorage.getItem('token');
 
   if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Ajouter le token aux en-têtes
+    config.headers.Authorization = `Bearer ${token}`;
   }
 
-  return config; // Retourner la configuration modifiée
+  return config;
 }, (error) => {
-  return Promise.reject(error); // Gérer l'erreur de la requête
+  return Promise.reject(error);
 });
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -31,19 +34,25 @@ const Login = () => {
       const response = await api.post('/login', { email, password });
       const { token, email: responseEmail, type } = response.data;
 
-      // Stocker les données dans le localStorage
       localStorage.setItem('token', token);
       localStorage.setItem('email', responseEmail);
       localStorage.setItem('type', type);
 
-      navigate('/materiel'); // Rediriger vers la page "Materiel"
+      navigate('/materiel');
     } catch (err) {
-      setError('Invalid credentials');
+      setError('Identifiants invalides');
     }
   };
 
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div
+      className="d-flex justify-content-center align-items-center vh-100"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}
+    >
       <div className="card shadow-lg" style={{ width: '100%', maxWidth: '400px' }}>
         <div className="card-body">
           <h4 className="card-title text-center mb-4">Authentifiez-vous</h4>
@@ -62,23 +71,23 @@ const Login = () => {
             </div>
 
             <div className="form-group mb-3">
-              <label htmlFor="password">Mots de passe</label>
+              <label htmlFor="password">Mot de passe</label>
               <div className="input-group">
                 <input
-                  type={isPasswordVisible ? 'text' : 'password'} // Modifier le type en fonction de la visibilité
+                  type={isPasswordVisible ? 'text' : 'password'}
                   className="form-control"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  style={{ paddingRight: '2.5rem' }} // Ajoute de l'espace pour l'icône
+                  style={{ paddingRight: '2.5rem' }}
                 />
                 <div
                   className="input-group-append"
-                  style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '15%' }} // Positionnement de l'icône
-                  onClick={() => setIsPasswordVisible(!isPasswordVisible)} // Bascule la visibilité
+                  style={{ cursor: 'pointer', position: 'absolute', right: '10px', top: '15%' }}
+                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
                 >
-                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />} {/* Afficher l'icône correspondante */}
+                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
                 </div>
               </div>
             </div>
