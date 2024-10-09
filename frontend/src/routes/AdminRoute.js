@@ -13,7 +13,7 @@ const AdminRoute = ({ children }) => {
   }
 
   // Vérifie si le type d'utilisateur est admin
-  if (isAdmin == true) {
+  if (isAdmin == false) {
     // Redirige vers la page d'accueil ou une autre page si l'utilisateur n'est pas admin
     return <Navigate to="/login" />;
   }
