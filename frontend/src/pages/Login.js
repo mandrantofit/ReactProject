@@ -15,7 +15,7 @@ import {
   CButton,
 } from '@coreui/react'; // Importation des composants CoreUI
 import '@coreui/coreui/dist/css/coreui.min.css'; // Importation du CSS CoreUI
-import '../styles/LoginCoreUI.css'; // Style personnalisé pour le thème Canal+
+import '../styles/Login.css'; // Style personnalisé pour le thème Canal+
 
 const api = axios.create({
   baseURL: config.BASE_URL,
