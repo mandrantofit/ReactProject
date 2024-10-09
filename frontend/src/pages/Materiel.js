@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import * as XLSX from 'xlsx';
 import config from '../config';
+import backgroundImage from '../assets/server.jpeg';
 const api = axios.create({
   baseURL: config.BASE_URL,
 });
@@ -15,7 +16,7 @@ api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token'); // Récupérer le token
 
   if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Ajouter le token aux en-têtes
+    config.headers.Authorization = `Bearer ${token}`; // Ajouter le token aux en-têtes
   }
 
   return config; // Retourner la configuration modifiée
@@ -432,7 +433,12 @@ const Materiel = () => {
   ];
 
   return (
-    <div className="container mt-4">
+    <div className="d-flex justify-content-center align-items-center vh-100"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      }}>
       <div className="card shadow-sm">
         <div className="card-header bg-dark text-white">
           <h4 className="mb-0">Liste des Matériels</h4>
@@ -442,8 +448,8 @@ const Materiel = () => {
             <button className="btn btn-success" onClick={() => setShowModal(true)}>
               Ajouter Matériel
             </button>
-            
-            
+
+
             <OverlayTrigger
               placement="top"
               overlay={<Tooltip id="export-tooltip">Exporter en Excel</Tooltip>}
@@ -452,8 +458,8 @@ const Materiel = () => {
                 <FaFileExport className="me-2" />
               </button>
             </OverlayTrigger>
-            
-            
+
+
 
           </div>
           {loading ? (
@@ -472,7 +478,7 @@ const Materiel = () => {
                 rowsPerPageOptions={[5]}
                 disableSelectionOnClick
                 className="bg-light"
-               // slots={{ toolbar: GridToolbar }}
+              // slots={{ toolbar: GridToolbar }}
               />
             </div>
           )}
