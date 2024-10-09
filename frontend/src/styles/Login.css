@@ -1,24 +1,15 @@
-/* Styles généraux avec le fond et les couleurs Canal+ */
-.login-container-canal {
+/* Styles pour la page de connexion Canal+ avec CoreUI */
+.login-container-coreui {
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #000; /* Noir profond */
+    background-color: #000; /* Fond noir pour Canal+ */
   }
   
-  /* Style pour la carte (formulaire de connexion) avec du blanc pour Canal+ */
-  .login-card-canal {
-    width: 100%;
-    max-width: 400px;
+  .login-card-coreui {
     background-color: #1c1c1c; /* Gris foncé pour le formulaire */
     border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   }
   
-  /* Titre avec la marque Canal+ */
-  .card-title .brand {
+  .brand {
     font-family: 'Arial Black', sans-serif;
     font-size: 2rem;
     color: #fff;
@@ -26,49 +17,34 @@
     letter-spacing: 2px;
   }
   
-  /* Styles pour les champs input */
-  .login-card-canal input {
-    background-color: #333; /* Fond sombre */
-    color: #fff; /* Texte blanc */
+  /* Input et boutons */
+  .login-card-coreui .form-control-lg {
+    background-color: #333;
+    color: #fff;
     border: none;
-    transition: border-color 0.3s;
   }
   
-  /* Focus sur les champs */
-  .login-card-canal input:focus {
+  .login-card-coreui .form-control-lg:focus {
     border-color: #fff;
     box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
   }
   
-  /* Icône de visibilité du mot de passe */
   .password-icon {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
     color: #fff;
   }
   
-  /* Bouton de connexion avec le thème Canal+ */
-  .btn-light {
+  .btn-lg {
     background-color: #fff;
     color: #000;
-    font-weight: bold;
     border: none;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
   }
   
-  .btn-light:hover {
+  .btn-lg:hover {
     background-color: #e5e5e5;
   }
   
-  /* Texte d'accueil */
-  .text-muted {
-    color: #c4c4c4;
-  }
-  
-  /* Texte blanc */
+  /* Texte */
   .text-white {
     color: #fff;
   }

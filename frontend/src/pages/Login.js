@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import config from '../config';
-import '../styles/Login.css'; // Fichier CSS pour le style Canal+
+import {
+  CContainer,
+  CRow,
+  CCol,
+  CCard,
+  CCardBody,
+  CForm,
+  CFormInput,
+  CFormLabel,
+  CButton,
+} from '@coreui/react'; // Importation des composants CoreUI
+import '@coreui/coreui/dist/css/coreui.min.css'; // Importation du CSS CoreUI
+import '../styles/LoginCoreUI.css'; // Style personnalisé pour le thème Canal+
 
 const api = axios.create({
   baseURL: config.BASE_URL,
@@ -45,57 +56,60 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container-canal">
-      <div className="login-card-canal shadow-lg">
-        <div className="card-body">
-          <h4 className="card-title text-center mb-4">
-            <span className="brand">Canal+</span> {/* Thème Canal+ */}
-          </h4>
+    <CContainer className="login-container-coreui d-flex align-items-center justify-content-center">
+      <CRow className="w-100 justify-content-center">
+        <CCol md={6} lg={4}>
+          <CCard className="login-card-coreui shadow-lg">
+            <CCardBody>
+              <h4 className="text-center mb-4 brand">Canal+</h4>
+              <p className="text-center text-muted">Connectez-vous à votre compte</p>
 
-          {/* Texte d'accueil */}
-          <p className="text-center mb-4 text-muted">Connectez-vous à votre compte</p>
-
-          <form onSubmit={handleSubmit}>
-            <div className="form-group mb-3">
-              <label htmlFor="email" className="text-white">Adresse Email</label>
-              <input
-                type="email"
-                className="form-control form-control-lg"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-
-            <div className="form-group mb-3">
-              <label htmlFor="password" className="text-white">Mot de Passe</label>
-              <div className="input-group">
-                <input
-                  type={isPasswordVisible ? 'text' : 'password'}
-                  className="form-control form-control-lg"
-                  id="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  style={{ paddingRight: '2.5rem' }}
-                />
-                <div
-                  className="input-group-append password-icon"
-                  onClick={() => setIsPasswordVisible(!isPasswordVisible)}
-                >
-                  {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+              <CForm onSubmit={handleSubmit}>
+                <div className="mb-3">
+                  <CFormLabel htmlFor="email" className="text-white">Adresse Email</CFormLabel>
+                  <CFormInput
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="form-control-lg"
+                  />
                 </div>
-              </div>
-            </div>
 
-            {error && <div className="alert alert-danger">{error}</div>}
+                <div className="mb-3">
+                  <CFormLabel htmlFor="password" className="text-white">Mot de Passe</CFormLabel>
+                  <div className="input-group">
+                    <CFormInput
+                      type={isPasswordVisible ? 'text' : 'password'}
+                      id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      required
+                      className="form-control-lg"
+                      style={{ paddingRight: '2.5rem' }}
+                    />
+                    <div
+                      className="input-group-append password-icon"
+                      onClick={() => setIsPasswordVisible(!isPasswordVisible)}
+                      style={{ cursor: 'pointer', padding: '0.5rem' }}
+                    >
+                      {isPasswordVisible ? <FaEyeSlash /> : <FaEye />}
+                    </div>
+                  </div>
+                </div>
 
-            <button type="submit" className="btn btn-light w-100 btn-lg mt-3">Connexion</button>
-          </form>
-        </div>
-      </div>
-    </div>
+                {error && <div className="alert alert-danger">{error}</div>}
+
+                <CButton type="submit" color="light" className="w-100 btn-lg mt-3">
+                  Connexion
+                </CButton>
+              </CForm>
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
   );
 };
 
