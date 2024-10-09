@@ -85,7 +85,7 @@ const Login = () => {
 
             {error && <div className="alert alert-danger">{error}</div>}
 
-            <button type="submit" className="btn btn-primary w-100">Login</button>
+            <button type="submit" className="btn btn-dark w-100">Login</button>
           </form>
         </div>
       </div>
