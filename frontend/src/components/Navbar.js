@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'; // Inclure le JavaScript de Boo
 import canalLogo from '../assets/canal_plus.svg'; // Import du logo
 import '../styles/Navbar.css';
 import { FaSignOutAlt } from 'react-icons/fa';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
