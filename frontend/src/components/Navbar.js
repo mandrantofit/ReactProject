@@ -5,38 +5,17 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'; // Inclure le JavaScript de Boo
 import canalLogo from '../assets/canal_plus.svg'; // Import du logo
 import '../styles/Navbar.css';
 import { FaSignOutAlt } from 'react-icons/fa';
-import jwt from 'jsonwebtoken';
 
 const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
-    //localStorage.removeItem('type');
-    //localStorage.removeItem('email');
+    localStorage.removeItem('type');
+    localStorage.removeItem('email');
     window.location.href = '/login'; // Redirige vers la page de login
   };
 
-  const isAdmin = () => {
-    // Récupérer le token depuis localStorage
-    const token = localStorage.getItem('token'); // Assure-toi que le token est bien stocké
-  
-    // Vérifier si le token existe
-    if (token) {
-      try {
-        // Décoder le token
-        const decoded = jwt.decode(token);
-  
-        // Vérifier si le type d'utilisateur est admin
-        const userType = decoded?.type; // Remplace 'type' par la clé correspondant à ton type d'utilisateur
-        return userType === 'admin';
-      } catch (error) {
-        console.error('Erreur lors du décodage du token :', error);
-        return false; // En cas d'erreur, on retourne false
-      }
-    } else {
-      console.log('Token non trouvé dans localStorage');
-      return false; // Si le token n'existe pas, retourner false
-    }
-  };
+  // Vérifier si le type d'utilisateur est admin
+  const isAdmin = localStorage.getItem('type') === 'admin';
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -87,7 +66,7 @@ const Navbar = () => {
               <Link className="nav-link text-light" to="/aide">Aide</Link> {/* Ajouter le lien vers Aide */}
             </li>
             {/* Afficher le lien Admin uniquement si l'utilisateur est un admin */}
-            {isAdmin() && (
+            {isAdmin && (
               <li className="nav-item">
                 <Link className="nav-link text-light" to="/admin">Admin</Link>
               </li>
