@@ -4,7 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import config from '../config';
-import '../styles/Login.css'; // Fichier CSS pour un style amélioré
+import '../styles/Login.css'; // Fichier CSS pour le style Canal+
 
 const api = axios.create({
   baseURL: config.BASE_URL,
@@ -40,45 +40,43 @@ const Login = () => {
 
       navigate('/materiel');
     } catch (err) {
-      setError('Invalid credentials');
+      setError('Identifiants incorrects');
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card shadow-lg">
+    <div className="login-container-canal">
+      <div className="login-card-canal shadow-lg">
         <div className="card-body">
           <h4 className="card-title text-center mb-4">
-            <span className="brand">VotreApp</span> {/* Nom de votre app avec une animation */}
+            <span className="brand">Canal+</span> {/* Thème Canal+ */}
           </h4>
 
-          {/* Ajout d'un texte accrocheur */}
-          <p className="text-center mb-4 text-muted">Bienvenue, veuillez vous connecter à votre compte</p>
+          {/* Texte d'accueil */}
+          <p className="text-center mb-4 text-muted">Connectez-vous à votre compte</p>
 
           <form onSubmit={handleSubmit}>
             <div className="form-group mb-3">
-              <label htmlFor="email">Adresse Email</label>
+              <label htmlFor="email" className="text-white">Adresse Email</label>
               <input
                 type="email"
-                className="form-control"
+                className="form-control form-control-lg"
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Entrez votre adresse email"
                 required
               />
             </div>
 
             <div className="form-group mb-3">
-              <label htmlFor="password">Mot de Passe</label>
+              <label htmlFor="password" className="text-white">Mot de Passe</label>
               <div className="input-group">
                 <input
                   type={isPasswordVisible ? 'text' : 'password'}
-                  className="form-control"
+                  className="form-control form-control-lg"
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
                   required
                   style={{ paddingRight: '2.5rem' }}
                 />
@@ -93,12 +91,7 @@ const Login = () => {
 
             {error && <div className="alert alert-danger">{error}</div>}
 
-            <button type="submit" className="btn btn-primary w-100 btn-lg mt-3">Connexion</button>
-
-            {/* Lien de réinitialisation du mot de passe */}
-            <div className="text-center mt-3">
-              <a href="/reset-password" className="text-muted">Mot de passe oublié ?</a>
-            </div>
+            <button type="submit" className="btn btn-light w-100 btn-lg mt-3">Connexion</button>
           </form>
         </div>
       </div>
