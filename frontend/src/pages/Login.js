@@ -62,7 +62,7 @@ const Login = () => {
             </div>
 
             <div className="form-group mb-3">
-              <label htmlFor="password">Mot de passe</label>
+              <label htmlFor="password">Mots de passe</label>
               <div className="input-group">
                 <input
                   type={isPasswordVisible ? 'text' : 'password'} // Modifier le type en fonction de la visibilité
