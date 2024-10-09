@@ -18,7 +18,7 @@ const token = localStorage.getItem('token');
 
 let isAdmin = false;
 if (token) {
-  const decoded = jwt_decode(token);
+  const decoded = jwtDecode(token);
   isAdmin = decoded.type === 'admin'; // Assurez-vous que le champ 'type' existe dans le token
 }
 
