@@ -5,7 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min'; // Inclure le JavaScript de Boo
 import canalLogo from '../assets/canal_plus.svg'; // Import du logo
 import '../styles/Navbar.css';
 import { FaSignOutAlt } from 'react-icons/fa';
-
+import jwt_decode from 'jwt-decode';
 const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -13,9 +13,14 @@ const Navbar = () => {
     localStorage.removeItem('email');
     window.location.href = '/login'; // Redirige vers la page de login
   };
+// Supposons que vous ayez stocké le token dans localStorage
+const token = localStorage.getItem('token');
 
-  // Vérifier si le type d'utilisateur est admin
-  const isAdmin = localStorage.getItem('type') === 'admin';
+let isAdmin = false;
+if (token) {
+  const decoded = jwt_decode(token);
+  isAdmin = decoded.type === 'admin'; // Assurez-vous que le champ 'type' existe dans le token
+}
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">

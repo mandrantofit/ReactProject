@@ -35,8 +35,8 @@ const Login = () => {
       const { token, email: responseEmail, type } = response.data;
 
       localStorage.setItem('token', token);
-      localStorage.setItem('email', responseEmail);
-      localStorage.setItem('type', type);
+      //localStorage.setItem('email', responseEmail);
+      //localStorage.setItem('type', type);
 
       navigate('/materiel');
     } catch (err) {
