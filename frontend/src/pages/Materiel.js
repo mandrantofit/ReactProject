@@ -191,7 +191,7 @@ const Materiel = () => {
       fetchMateriel();
       fetchPossibilites();
     } catch (error) {
-      toast.error("Une erreur est survenue lors de l'ajout du matériel.");
+      toast.error("Une erreur est survenue lors de l'ajout du matériel. Verifier les informations");
     }
   };
 
@@ -217,7 +217,7 @@ const Materiel = () => {
       fetchMateriel();
       fetchPossibilites();
     } catch (error) {
-      toast.error("Une erreur est survenue lors de la mise à jour du matériel.");
+      toast.error("Une erreur est survenue lors de la mise à jour du matériel. Verifier les informations");
     }
   };
   const handleDelete = async (id) => {
