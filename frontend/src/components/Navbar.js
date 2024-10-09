@@ -14,8 +14,28 @@ const Navbar = () => {
     window.location.href = '/login'; // Redirige vers la page de login
   };
 
-  // Vérifier si le type d'utilisateur est admin
-  const isAdmin = localStorage.getItem('type') === 'admin';
+  const isAdmin = () => {
+    // Récupérer le token depuis localStorage
+    const token = localStorage.getItem('token'); // Assure-toi que le token est bien stocké
+  
+    // Vérifier si le token existe
+    if (token) {
+      try {
+        // Décoder le token
+        const decoded = jwt.decode(token);
+  
+        // Vérifier si le type d'utilisateur est admin
+        const userType = decoded?.type; // Remplace 'type' par la clé correspondant à ton type d'utilisateur
+        return userType === 'admin';
+      } catch (error) {
+        console.error('Erreur lors du décodage du token :', error);
+        return false; // En cas d'erreur, on retourne false
+      }
+    } else {
+      console.log('Token non trouvé dans localStorage');
+      return false; // Si le token n'existe pas, retourner false
+    }
+  };
 
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
