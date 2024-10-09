@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import config from '../config';
 import {
   CContainer,
   CRow,
@@ -12,21 +13,19 @@ import {
   CFormInput,
   CFormLabel,
   CButton,
-} from '@coreui/react';
-import '@coreui/coreui/dist/css/coreui.min.css';
-import '../styles/Login.css'; 
-import config from '../config';  // Assurez-vous que le chemin d'import est correct
+  CAlert,
+} from '@coreui/react'; // Importation des composants CoreUI
+import '@coreui/coreui/dist/css/coreui.min.css'; // Importation du CSS CoreUI
 
+// Configuration de l'API Axios avec le token
 const api = axios.create({
   baseURL: config.BASE_URL,
 });
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
-
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
   return config;
 }, (error) => {
   return Promise.reject(error);
@@ -36,7 +35,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const navigate = useNavigate();  // Assurez-vous que la version de react-router-dom est compatible
+  const navigate = useNavigate();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -56,29 +55,30 @@ const Login = () => {
   };
 
   return (
-    <CContainer className="login-container-coreui d-flex align-items-center justify-content-center">
+    <CContainer className="d-flex justify-content-center align-items-center vh-100">
       <CRow className="w-100 justify-content-center">
         <CCol md={6} lg={4}>
-          <CCard className="login-card-coreui shadow-lg">
+          <CCard className="shadow-lg">
             <CCardBody>
-              <h4 className="text-center mb-4 brand">Canal+</h4>
-              <p className="text-center text-muted">Connectez-vous à votre compte</p>
+              <h4 className="text-center mb-4">Authentifiez-vous</h4>
 
               <CForm onSubmit={handleSubmit}>
+                {/* Email */}
                 <div className="mb-3">
-                  <CFormLabel htmlFor="email" className="text-white">Adresse Email</CFormLabel>
+                  <CFormLabel htmlFor="email">Adresse Email</CFormLabel>
                   <CFormInput
                     type="email"
                     id="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="form-control-lg"
+                    placeholder="Entrez votre adresse email"
                   />
                 </div>
 
+                {/* Mot de passe */}
                 <div className="mb-3">
-                  <CFormLabel htmlFor="password" className="text-white">Mot de Passe</CFormLabel>
+                  <CFormLabel htmlFor="password">Mot de Passe</CFormLabel>
                   <div className="input-group">
                     <CFormInput
                       type={isPasswordVisible ? 'text' : 'password'}
@@ -86,7 +86,7 @@ const Login = () => {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
-                      className="form-control-lg"
+                      placeholder="••••••••"
                       style={{ paddingRight: '2.5rem' }}
                     />
                     <div
@@ -99,9 +99,11 @@ const Login = () => {
                   </div>
                 </div>
 
-                {error && <div className="alert alert-danger">{error}</div>}
+                {/* Message d'erreur */}
+                {error && <CAlert color="danger">{error}</CAlert>}
 
-                <CButton type="submit" color="light" className="w-100 btn-lg mt-3">
+                {/* Bouton de connexion */}
+                <CButton type="submit" color="primary" className="w-100">
                   Connexion
                 </CButton>
               </CForm>
