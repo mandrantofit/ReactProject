@@ -28,9 +28,9 @@
     "xlsx": "^0.18.5"
   },
   "scripts": {
-    "start": "react-app start",
-    "build": "react-app build",
-    "test": "react-app test"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
