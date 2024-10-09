@@ -10,8 +10,8 @@ import jwt from 'jsonwebtoken';
 const Navbar = () => {
   const handleLogout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('type');
-    localStorage.removeItem('email');
+    //localStorage.removeItem('type');
+    //localStorage.removeItem('email');
     window.location.href = '/login'; // Redirige vers la page de login
   };
 
@@ -87,7 +87,7 @@ const Navbar = () => {
               <Link className="nav-link text-light" to="/aide">Aide</Link> {/* Ajouter le lien vers Aide */}
             </li>
             {/* Afficher le lien Admin uniquement si l'utilisateur est un admin */}
-            {isAdmin && (
+            {isAdmin() && (
               <li className="nav-item">
                 <Link className="nav-link text-light" to="/admin">Admin</Link>
               </li>
