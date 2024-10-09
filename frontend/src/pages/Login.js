@@ -15,6 +15,7 @@ import {
 } from '@coreui/react';
 import '@coreui/coreui/dist/css/coreui.min.css';
 import '../styles/Login.css'; 
+import config from '../config';  // Assurez-vous que le chemin d'import est correct
 
 const api = axios.create({
   baseURL: config.BASE_URL,
